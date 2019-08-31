@@ -4,7 +4,7 @@
       <div class="container">
         <div class="brand">
           <router-link to="/" tag="a" :style="{color: site.frontend_opts.theme.primary}">
-            <img v-if="site.frontend_opts.logo" :src="`http://localhost/${site.frontend_opts.logo}`"/>
+            <img v-if="site.frontend_opts.logo" :src="`http://localhost:80/${site.frontend_opts.logo}`"/>
             <span v-else>{{ site ? site.name : 'Logo' }}</span>
           </router-link>
           <i

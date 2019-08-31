@@ -1,4 +1,4 @@
-# hairplace
+# stughem
 
 ## Project setup
 ```

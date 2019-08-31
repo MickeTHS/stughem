@@ -16,7 +16,7 @@
         <div
           class="img"
           v-for="(img, index) in site.gallery.images"
-          :style="{background: 'url(' + baseURL + img.image_url + ')'}"
+          :style="{background: 'url(' + img.image_url + ')'}"
           :key="index"
         ></div>
       </div>
@@ -29,7 +29,7 @@ export default {
   props: ['site', 'allowEdit'],
   data(){
     return {
-      baseURL: 'http://localhost/'
+      baseURL: 'http://localhost:80/'
     }
   }
 };

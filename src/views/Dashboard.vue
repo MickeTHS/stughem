@@ -6,6 +6,7 @@
       :allowEdit="true"
       @updateHeading="updateHeading"
       @updateSubHeading="updateSubHeading"
+      @addToBackgroundImage="addToBackgroundImage"
     />
     <About
       :site="site"
@@ -131,7 +132,7 @@
                 type="text"
                 id="staffTitle"
                 v-model="staff.title"
-                placeholder="e.g Hairdresser"
+                placeholder="e.g Receptionist"
               />
             </div>
             <div class="form-control">
@@ -151,6 +152,12 @@
             <div class="form-control">
               <label for="gallery">Select Images</label>
               <input type="file" id="gallery" @change="onFilesSelected" multiple>
+            </div>
+          </div>
+          <div v-if="dialog.target === 'addToBackgroundImage'">
+            <div class="form-control">
+              <label for="backgroundImage">Select Image</label>
+              <input type="file" id="backgroundImage" @change="onFilesSelected">
             </div>
           </div>
           <div v-if="dialog.target === 'updateSocialLinks'">
@@ -179,6 +186,7 @@
               && dialog.target !== 'editProducts'
               && dialog.target !== 'addStaff'
               && dialog.target !== 'addToGallery'
+              && dialog.target !== 'addToBackgroundImage'
               && dialog.target !== 'updateSocialLinks'"
             class="btn"
             @click="saveFrontendOpts"
@@ -187,6 +195,7 @@
           <button v-if="dialog.target === 'addProducts' || dialog.target === 'editProducts'" class="btn" @click="saveProducts">Save</button>
           <button v-if="dialog.target === 'addStaff'" class="btn" @click="saveStaff">Save</button>
           <button v-if="dialog.target === 'addToGallery'" class="btn" @click="saveToGallery">Save</button>
+          <button v-if="dialog.target === 'addToBackgroundImage'" class="btn" @click="saveBackgroundImage">Save</button>
           <button v-if="dialog.target === 'updateSocialLinks'" class="btn" @click="saveSocialLinks">Save</button>
           <button class="btn btn-error" @click="dialog.open = false">Close</button>
         </footer>
@@ -313,6 +322,7 @@ export default {
       }
       const fd = new FormData()
       fd.append('image', this.selectedFiles[0])
+      fd.append('file_source', 'staff');
       const payload = {staff, fd}
       this.$store.dispatch('addStaff', payload)
     },
@@ -321,15 +331,30 @@ export default {
       this.dialog.target = "addToGallery"
       this.dialog.open = true
     },
+    addToBackgroundImage() {
+      this.dialog.title = "Add Background Image"
+      this.dialog.target = "addToBackgroundImage"
+      this.dialog.open = true
+    },
     saveToGallery() {
       if(!this.selectedFiles) return
       const filesSelectedCount = this.selectedFiles.length
       const fd = new FormData()
       fd.append('gallery_id', this.site.gallery.gallery_id)
+      fd.append('file_source', 'gallery')
       for(let i = 0; i < filesSelectedCount; i++){
         fd.append('gallery[]', this.selectedFiles[i])
       }
       this.$store.dispatch('addToGallery', fd)
+    },
+    saveBackgroundImage() {
+      if(!this.selectedFiles) return
+      
+      const fd = new FormData()
+      fd.append('file_source', 'background_image');
+      fd.append('image', this.selectedFiles[0]);
+      
+      this.$store.dispatch('addToBackgroundImage', fd)
     },
     updateSocialLinks() {
       this.dialog.title = "Update Social Links"

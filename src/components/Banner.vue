@@ -3,8 +3,8 @@
   <div class="hero">
     <div class="container">
       <div class="box">
-        <h1>The Best Place Where You Take Your Hair Business to the Next Level</h1>
-        <router-link to="/signup" tag="a" class="btn">Get Started</router-link>
+        <h1>Skapa en snygg och proffsig hemsida åt din stuga/hus för uthyrning enkelt och snabbt!</h1>
+        <router-link to="/signup" tag="a" class="btn">Skapa sida</router-link>
       </div>
     </div>
   </div>

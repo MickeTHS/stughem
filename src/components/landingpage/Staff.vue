@@ -6,7 +6,7 @@
         <div class="members">
           <i class="material-icons add" v-if="allowEdit" @click="$emit('addStaff')" :style="{background: site.frontend_opts.theme.primary}">add</i>
           <div class="col" v-for="(member, i) in site.staff" :key="i">
-            <div class="team-member" :style="{background: 'url(' + baseURL + member.image_url + ')'}">
+            <div class="team-member" :style="{background: 'url(' + member.image_url + ')'}">
               <i class="material-icons delete" v-if="allowEdit" @click="deleteStaff(member.user_id)">delete</i>
               <div class="infos" :style="{background: site.frontend_opts.theme.primary}">
                 <h4>{{ `${member.firstname} ${member.lastname}` }}</h4>
@@ -30,7 +30,7 @@ export default {
   props: ['site', 'allowEdit'],
   data(){
     return {
-      baseURL: 'http://localhost/'
+      baseURL: 'http://localhost:80/'
     }
   },
   methods: {

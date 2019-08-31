@@ -3,11 +3,12 @@
     <div class="container">
       <h2 :style="{color: site.frontend_opts.theme.sections[0].text.heading}">Who We Are</h2>
       <div class="grid">
-        <div class="col" style="background: url(/img/img-1.jpg)"></div>
+        <div class="col" :style="{background: 'url(' + site.frontend_opts.backgroundImageURL + ')'}"></div>
         <div class="col">
           <i class="material-icons edit" v-if="allowEdit" @click="$emit('updateAbout')" :style="{background: site.frontend_opts.theme.primary}">edit</i>
           <p :style="{color: site.frontend_opts.theme.sections[0].text.body}">{{ site.frontend_opts.about }}</p>
         </div>
+        
       </div>
     </div>
   </section>

@@ -2,7 +2,7 @@
   <nav v-if="this.$route.path !== '/wizard'">
     <div class="container">
       <div class="brand">
-        <router-link to="/" tag="a">HairPlace</router-link>
+        <router-link to="/" tag="a">StugHem</router-link>
       </div>
       <ul class="top-menu">
         <router-link to="/" tag="li">Home</router-link>

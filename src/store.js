@@ -134,7 +134,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost/fileupload', payload, config)
+        const res = await Axios.post('http://localhost:80/fileupload', payload, config)
         console.log(res)
         const logo = res.data.files[0]
         const frontendOpts = state.site.frontend_opts
@@ -171,8 +171,30 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost/fileupload', fd, config)
+        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
         const message = 'Images uploaded successfully'
+        const snackbar = {
+          open: true,
+          message: message,
+          success: true
+        }
+        commit('showSnackbar', snackbar)
+        dispatch('getSite', state.site.site_id)
+      } catch (e) {
+        console.log('ERROR!!')
+        console.log(e.reason)
+      }
+    },
+    async addToBackgroundImage({commit, dispatch, state}, fd) {
+      const config = {
+        headers: {
+          'x-access-token': state.token,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      try {
+        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
           message: message,
@@ -236,7 +258,7 @@ export default new Vuex.Store({
         }
         // payload.fd.append('gallery_id', galleryId)
         payload.fd.append('staff_id', staffId)
-        const uploadRes = await Axios.post('http://localhost/fileupload', payload.fd, filesUploadConfig)
+        const uploadRes = await Axios.post('http://localhost:80/fileupload', payload.fd, filesUploadConfig)
         console.log(uploadRes)
       } catch (e) {
         console.log('ERROR!!')

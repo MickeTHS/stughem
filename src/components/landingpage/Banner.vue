@@ -11,9 +11,12 @@
           {{ site.frontend_opts.sub_heading }}
         </p>
         <router-link to="/book" tag="a" class="btn" :style="{background: site.frontend_opts.theme.primary}">Book Now</router-link>
+        <p>
+          <button class="btn-edit" v-if="allowEdit" @click="$emit('addToBackgroundImage')">Ändra bakgrundsbild</button>
+        </p>
       </div>
     </div>
-    <div class="parallax"></div>
+    <div class="parallax" :style="{background: 'url(' + site.frontend_opts.backgroundImageURL + ')'}"></div>
   </div>
 </template>
 
@@ -67,6 +70,15 @@ export default {
         margin: 20px auto 0;
         background-color: $theme1;
       }
+
+      .btn-edit {
+        font-size: 14px;
+        font-weight: 700;
+        display: block;
+        width: 300px;
+        margin: 20px auto 0;
+        background-color: gray;
+      }
     }
   }
 
@@ -76,7 +88,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    background: url(/img/hero.jpg);
+    /*background: url(/img/hero.jpg);*/
     background-size: cover;
     z-index: 0;
   }

@@ -16,60 +16,27 @@
       <div class="content">
         <div class="theme-preview">
           <ul class="custom">
-            <li>
-              <h3>About Section</h3>
+            <li v-bind:key="section.id" v-for="section in sections">
+            <h3>{{section.text.heading_text}}</h3>
+              <div class="input-group">
+              <label class="switch">
+                <input type="checkbox" />
+                <span class="slider"></span>
+              </label>
+              </div>
               Background:
-              <input type="color" v-model="sections[0].background" />
+              <input type="color" v-model="section.background" />
               Heading:
-              <input type="color" v-model="sections[0].text.heading" />
+              <input type="color" v-model="section.text.heading" />
               Body:
-              <input type="color" v-model="sections[0].text.body" />
+              <input type="color" v-model="section.text.body" />
             </li>
-            <li>
-              <h3>Opening Hours Section</h3>
-              Background:
-              <input type="color" v-model="sections[1].background" />
-              Heading:
-              <input type="color" v-model="sections[1].text.heading" />
-              Body:
-              <input type="color" v-model="sections[1].text.body" />
-            </li>
-            <li>
-              <h3>Our Gallery Section</h3>
-              Background:
-              <input type="color" v-model="sections[2].background" />
-              Heading:
-              <input type="color" v-model="sections[2].text.heading" />
-              Body:
-              <input type="color" v-model="sections[2].text.body" />
-            </li>
-            <li>
-              <h3>Staff Section</h3>
-              Background:
-              <input type="color" v-model="sections[3].background" />
-              Heading:
-              <input type="color" v-model="sections[3].text.heading" />
-              Body:
-              <input type="color" v-model="sections[3].text.body" />
-            </li>
-            <li>
-              <h3>Pricing Section</h3>
-              Background:
-              <input type="color" v-model="sections[4].background" />
-              Heading:
-              <input type="color" v-model="sections[4].text.heading" />
-              Body:
-              <input type="color" v-model="sections[4].text.body" />
-            </li>
-            <li>
-              <h3>Contact Section</h3>
-              Background:
-              <input type="color" v-model="sections[5].background" />
-              Heading:
-              <input type="color" v-model="sections[5].text.heading" />
-              Body:
-              <input type="color" v-model="sections[5].text.body" />
-            </li>
+          </ul>
+          <h3>Add new section</h3>
+          <ul>
+            <li><img src="/img/section_type_image_left.jpg"></li>
+            <li><img src="/img/section_type_image_right.jpg"></li>
+            <li><img src="/img/section_type_column_image_text.jpg"></li>
           </ul>
           <h3>Themes:</h3>
           <ul class="themes">
@@ -103,46 +70,70 @@ export default {
       currentTheme: 1,
       sections: [
         {
+          id: 'aaa',
+          name: 'About Section',
+          type: 'heading_text',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
         {
+          id: 'aab',
+          name: 'Opening Hours Section',
+          type: 'opening_hours',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
         {
+          id: 'aac',
+          name: 'Our Gallery Section',
+          type: 'gallery',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
         {
+          id: 'aad',
+          name: 'Staff Section',
+          type: 'staff_list',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
         {
+          id: 'aae',
+          name: 'Pricing Section',
+          type: 'pricing_list',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
         {
+          id: 'aaf',
+          name: 'Contact Section',
+          type: 'contact_form',
           background: '#ffffff', 
           text: {
             heading: '#777777',
             body: '#777777'
-          }
+          },
+          enabled: true
         },
       ],
       dialog: {
@@ -170,7 +161,8 @@ export default {
           hasDomain: this.site.frontend_opts.hasDomain,
           createDomain: this.site.frontend_opts.createDomain,
           existingDomain: this.site.frontend_opts.existingDomain,
-          desiredDomain: this.site.frontend_opts.desiredDomain
+          desiredDomain: this.site.frontend_opts.desiredDomain,
+          backgroundImageURL: this.site.frontend_opts.backgroundImageURL
         }
       };
       await this.$store.dispatch("updateSite", site);
@@ -179,7 +171,8 @@ export default {
     }
   },
   mounted() {
-    this.sections = this.site.frontend_opts.theme.sections
+    this.sections = this.site.frontend_opts.theme.sections;
+    console.log(this.sections);
   }
 };
 </script>
