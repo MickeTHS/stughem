@@ -20,7 +20,7 @@
             <h3>{{section.text.heading_text}}</h3>
               <div class="input-group">
               <label class="switch">
-                <input type="checkbox" />
+                <input type="checkbox" v-model="section.enabled"/>
                 <span class="slider"></span>
               </label>
               </div>
@@ -78,7 +78,7 @@ export default {
             heading: '#777777',
             body: '#777777'
           },
-          enabled: true
+          enabled: false
         },
         {
           id: 'aab',

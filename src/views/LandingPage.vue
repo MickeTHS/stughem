@@ -1,12 +1,29 @@
 <template>
   <main v-if="site">
     <Banner :site="site" :allowEdit="false"/>
-    <About :site="site" :allowEdit="false" />
-    <OpeningHours :site="site" :allowEdit="false" />
-    <Gallery :site="site" :allowEdit="false" />
-    <Staff :site="site" />
-    <Products :site="site" :allowEdit="false"/>
-    <Contact :site="site"/>
+
+    <div v-bind:key="section.id" v-for="section in site.frontend_opts.theme.sections">
+
+      <div v-if="section.type === 'heading_text'">
+        <About :site="site" :allowEdit="false" />
+      </div>
+      <div v-else-if="section.type === 'opening_hours'">
+        <OpeningHours :site="site" :allowEdit="false" />
+      </div>
+      <div v-else-if="section.type === 'gallery'">
+        <Gallery :site="site" :allowEdit="false" />
+      </div>
+      <div v-else-if="section.type === 'staff_list'">
+        <Staff :site="site" />
+      </div>
+      <div v-else-if="section.type === 'pricing_list'">
+        <Products :site="site" :allowEdit="false"/>
+      </div>
+      <div v-else-if="section.type === 'contact_form'">
+        <Contact :site="site"/>
+      </div>
+    </div>
+    
     <Footer :site="site" :allowEdit="false"/>
   </main>
 </template>

@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  props: ['site', 'allowEdit'],
+  props: ['site', 'allowEdit', 'section'],
   data(){
     return {
       baseURL: 'http://localhost:80/'

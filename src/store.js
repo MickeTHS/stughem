@@ -214,7 +214,7 @@ export default new Vuex.Store({
       return await axios.put('/site', site, config)
     },
     async getSitePublic({state, commit}, id) {
-      const res = await axios.get(`/site/extended?site_id=${id}`)
+      const res = await axios.get(`/site/publicextended?site_id=${id}`)
       const site = res.data.site
       commit('updatePublicSite', site)
     },
