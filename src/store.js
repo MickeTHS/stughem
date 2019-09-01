@@ -207,6 +207,13 @@ export default new Vuex.Store({
         console.log(e.reason)
       }
     },
+    async addSection({commit, state}, type) {
+      const config = { headers: {'x-access-token': state.token} }
+      const obj = { site_id: state.site.site_id, type: type };
+
+      console.log('site sending add section: ', obj)
+      return await axios.post('/site/addsection', obj, config)
+    },
     async updateSite({commit, state}, site) {
       const config = { headers: {'x-access-token': state.token} }
       site.site_id = state.site.site_id
@@ -228,7 +235,7 @@ export default new Vuex.Store({
 
       localStorage.setItem('site', JSON.stringify(site))
       commit('updateSite', site)
-      router.push('/admin')
+      //router.push('/admin')
     },
     async autoLoadSite({commit, state}) {
       try {

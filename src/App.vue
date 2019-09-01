@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <div id="app">
-      <Navbar v-if="this.$route.path.split('/')[1] !== 'site' && this.$route.path !== '/admin'" />
+      <Navbar v-if="this.$route.path.split('/')[1] !== 'site' && (this.$route.path !== '/admin' || this.$route.path !== '/theme')" />
       <LandingPageNavbar
-        v-if="this.$route.path.split('/')[1] === 'site' || this.$route.path === '/admin'"
+        v-if="this.$route.path.split('/')[1] === 'site' || this.$route.path === '/admin' || this.$route.path === '/theme'"
       />
       <router-view />
       <v-snackbar

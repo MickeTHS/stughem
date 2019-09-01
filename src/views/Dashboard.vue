@@ -2,9 +2,6 @@
   
     
   <main v-if="site">
-    
-
-    <ColorBox :site="site"/>
     <Banner
       :site="site"
       :allowEdit="true"

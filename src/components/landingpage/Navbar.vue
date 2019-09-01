@@ -9,7 +9,7 @@
           </router-link>
           <i
             class="material-icons edit"
-            v-if="$route.path === '/admin'"
+            v-if="$route.path === '/admin' || $route.path === '/theme'"
             @click="dialog.open = true"
             :style="{background: site.frontend_opts.theme.primary}"
           >edit</i>
@@ -36,15 +36,17 @@
         </ul>
         <ul class="account">
           <router-link to="/login" tag="li" v-if="!isAuth">Login</router-link>
+          <router-link to="/theme" tag="li" v-if="isAuth">Edit Theme/Sections</router-link>
+          <router-link to="/admin" tag="li" v-if="isAuth">Edit Website</router-link>
           <li
-            v-if="isAuth && ($route.path === '/admin')"
+            v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')"
             @click="$router.push(`/site/${site.site_id}`)"
           >View website</li>
           <li
-            v-if="isAuth && ($route.path === '/admin')"
+            v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')"
             @click="$router.push('/wizard')"
           >Create Site</li>
-          <li v-if="isAuth && ($route.path === '/admin')" @click="logout">Logout</li>
+          <li v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')" @click="logout">Logout</li>
         </ul>
         <div class="collapse" id="collapse" @click="sidebar = true">
           <span
@@ -76,6 +78,7 @@
           <a href="#contact" v-smooth-scroll>Contact</a>
         </li>
         <router-link to="/login" tag="li" v-if="!isAuth">Login</router-link>
+        
         <li
           v-if="isAuth && ($route.path !== '/site')"
           :class="`theme${site.frontend_opts.theme}`"

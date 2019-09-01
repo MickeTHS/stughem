@@ -7,6 +7,8 @@ import Wizard from './views/Wizard.vue'
 import Payment from './views/Payment.vue'
 import LandingPage from './views/LandingPage.vue'
 import Dashboard from './views/Dashboard.vue'
+import Theme from './views/Theme.vue'
+
 
 import store from './store'
 
@@ -61,6 +63,18 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: Dashboard,
+      beforeEnter(to, from, next){
+        if(store.state.token) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
+    },
+    {
+      path: '/theme',
+      name: 'theme',
+      component: Theme,
       beforeEnter(to, from, next){
         if(store.state.token) {
           next()

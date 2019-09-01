@@ -1,36 +1,39 @@
 <template>
-  <v-dialog v-model="open" width="500">
+  <v-dialog v-model="open">
     <v-card>
         <v-card-title
           class="headline grey lighten-2"
           primary-title
         >
-          Privacy Policy
+          Click on the section type you wish to add
         </v-card-title>
         <div>
         <v-item-group>
     <v-container>
       <v-row>
         <v-col
-          v-for="n in 3"
-          :key="n"
+          v-for="(section) in section_types"
+          v-bind:key="section.id"
           cols="12"
-          md="4"
+          :md="getNumColumns()"
         >
-          <v-item v-slot:default="{ active, toggle }">
+          <v-item>
             <v-card
-              :color="active ? 'primary' : ''"
+              :color="section.active ? 'primary' : ''"
               class="d-flex align-center"
-              dark
-              height="200"
-              @click="toggle"
+              
+              height="140"
+              :img="section.img"
+              @click="updateToggle(section.id)"
+              
             >
+            
               <v-scroll-y-transition>
                 <div
-                  v-if="active"
+                  v-if="section.active"
                   class="display-3 flex-grow-1 text-center"
                 >
-                  Active
+                  Selected
                 </div>
               </v-scroll-y-transition>
             </v-card>
@@ -47,9 +50,10 @@
           <v-btn
             color="primary"
             text
-            @click="open = false"
+            :disabled="!enabled_button"
+            @click="confirmAddNewSection()"
           >
-            I accept
+            Continue
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -58,6 +62,51 @@
 <script>
 export default {
   props: ['value', 'addSectionDialog'],
+  data() {
+    return {
+      enabled_button: false,
+      section_types: [
+        { 
+          id: 0,
+          img: 'img/section_type_image_left.jpg',
+          type: 'image_left',
+          active: false,
+        },
+        { 
+          id: 1,
+          img: 'img/section_type_image_right.jpg',
+          type: 'image_right',
+          active: false,
+        },
+        { 
+          id: 2,
+          img: 'img/section_type_column_image_text.jpg',
+          type: 'column_image_text',
+          active: false,
+        }
+      ]
+    }
+  },
+  methods: {
+    getNumColumns() { return 12 / this.section_types.length; },
+    confirmAddNewSection() {
+      for (var i = 0; i < this.section_types.length; ++i) {
+        if (this.section_types[i].active) {
+          this.$emit('selected-type',  this.section_types[i].type);
+          break;
+        }
+      }
+    },
+    updateToggle(id) {
+      console.log(id);
+      for (var n = 0; n < this.section_types.length; ++n) {
+        this.section_types[n].active = false;
+      }
+
+      this.section_types[id].active = true;
+      this.enabled_button = true;
+    }
+  },
   computed: {
       open: {
           get() {

@@ -1,47 +1,12 @@
 <template>
   <div class="colorbox">
-    <div class="colorbox-toggle" @click="dialog.open = true" :style="{background: site.frontend_opts.theme.primary}">
-      <i class="material-icons settings">settings</i>
-    </div>
-    <AddSectionModal :addSectionDialog="addSectionDialog" @cancelDialog="closeAddSectionDialog" />
-    <v-item-group>
-    <v-container>
-      <v-row>
-        <v-col
-          v-for="n in 3"
-          :key="n"
-          cols="12"
-          md="4"
-        >
-          <v-item v-slot:default="{ active, toggle }">
-            <v-card
-              :color="active ? 'primary' : ''"
-              class="d-flex align-center"
-              dark
-              height="200"
-              @click="toggle"
-            >
-              <v-scroll-y-transition>
-                <div
-                  v-if="active"
-                  class="display-3 flex-grow-1 text-center"
-                >
-                  Active
-                </div>
-              </v-scroll-y-transition>
-            </v-card>
-          </v-item>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-item-group>
-    <div class="dialog" :class="dialog.open ? 'open': ''">
+    <AddSectionModal :addSectionDialog="addSectionDialog" @cancelDialog="closeAddSectionDialog" @selected-type="selectedType" />
+    
       <header :style="{background: site.frontend_opts.theme.primary}">
         <div class="container">
-          <h2>Update Theme</h2>
+          <h2>Update Theme And Sections Layout</h2>
           <div class="controls">
             <button class="btn" @click="updateTheme">Save</button>
-            <button class="btn" @click="dialog.open = false">Close</button>
           </div>
         </div>
       </header>
@@ -66,11 +31,7 @@
           </ul>
           <h3>Add new section</h3>
           <button class="btn" @click="addSectionDialog = true">Add</button>
-          <ul>
-            <li><img src="/img/section_type_image_left.jpg"></li>
-            <li><img src="/img/section_type_image_right.jpg"></li>
-            <li><img src="/img/section_type_column_image_text.jpg"></li>
-          </ul>
+          
           <h3>Themes:</h3>
           <ul class="themes">
             <li
@@ -84,7 +45,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
@@ -211,6 +172,13 @@ export default {
       await this.$store.dispatch("updateSite", site);
       await this.$store.dispatch("getSite");
       this.dialog.open = false
+    },
+    async selectedType(type) {
+      console.log('we got ' + type);
+      
+      await this.$store.dispatch("addSection", type);
+      await this.$store.dispatch("getSite");
+      this.addSectionDialog = false;
     }
   },
   mounted() {
@@ -223,32 +191,11 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/_variables.scss";
 .colorbox {
-  .colorbox-toggle {
-    position: fixed;
-    top: calc(50% - 44px);
-    left: 0;
-    background-color: #8bc34a;
-    height: 32px;
-    width: 32px;
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    cursor: pointer;
-    .settings {
-      font-size: 16px;
-    }
-  }
-  .dialog {
-    background-color: #fff;
-    display: none;
-    &.open {
-      display: block;
-    }
+  
     header {
       padding: 10px 0;
       background-color: #8bc34a;
+      margin-top: 60px;
       .container {
         padding: 16px 32px;
         display: flex;
@@ -271,7 +218,7 @@ export default {
         margin-left: 10px;
       }
     }
-  }
+  
   .themes {
     margin-bottom: 20px;
     li {
