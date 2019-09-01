@@ -3,6 +3,38 @@
     <div class="colorbox-toggle" @click="dialog.open = true" :style="{background: site.frontend_opts.theme.primary}">
       <i class="material-icons settings">settings</i>
     </div>
+    <AddSectionModal :addSectionDialog="addSectionDialog" @cancelDialog="closeAddSectionDialog" />
+    <v-item-group>
+    <v-container>
+      <v-row>
+        <v-col
+          v-for="n in 3"
+          :key="n"
+          cols="12"
+          md="4"
+        >
+          <v-item v-slot:default="{ active, toggle }">
+            <v-card
+              :color="active ? 'primary' : ''"
+              class="d-flex align-center"
+              dark
+              height="200"
+              @click="toggle"
+            >
+              <v-scroll-y-transition>
+                <div
+                  v-if="active"
+                  class="display-3 flex-grow-1 text-center"
+                >
+                  Active
+                </div>
+              </v-scroll-y-transition>
+            </v-card>
+          </v-item>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-item-group>
     <div class="dialog" :class="dialog.open ? 'open': ''">
       <header :style="{background: site.frontend_opts.theme.primary}">
         <div class="container">
@@ -33,6 +65,7 @@
             </li>
           </ul>
           <h3>Add new section</h3>
+          <button class="btn" @click="addSectionDialog = true">Add</button>
           <ul>
             <li><img src="/img/section_type_image_left.jpg"></li>
             <li><img src="/img/section_type_image_right.jpg"></li>
@@ -55,8 +88,11 @@
 </template>
 
 <script>
+import AddSectionModal from './AddSectionModal';
+
 export default {
   props: ['site', 'theme'],
+  components: { AddSectionModal },
   data() {
     return {
       themes: [
@@ -139,12 +175,19 @@ export default {
       dialog: {
         open: false
       },
+      addSectionDialog: false,
       notifications: false,
       sound: true,
       widgets: false
     };
   },
   methods: {
+    closeAddSectionDialog() {
+      this.addSectionDialog = false;
+    },
+    addNewSectionModal() {
+      this.addSectionDialog = true;
+    },
     async updateTheme() {
       const theme = this.themes[this.currentTheme - 1].color
       const site = {

@@ -1,5 +1,9 @@
 <template>
+  
+    
   <main v-if="site">
+    
+
     <ColorBox :site="site"/>
     <Banner
       :site="site"
@@ -202,6 +206,7 @@
       </div>
     </div>
   </main>
+  
 </template>
 
 <script>
@@ -211,6 +216,7 @@ export default {
   mixins: [landingPage],
   data() {
     return {
+      showAddComponent: true,
       dialog: {
         open: false,
         title: null,
