@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     login() {
+      localStorage.clear();
       const authData = { email: this.email, password: this.password }
       this.$store.dispatch("login", authData)
     }

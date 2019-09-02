@@ -2,42 +2,85 @@
   
     
   <main v-if="site">
-    <Banner
-      :site="site"
-      :allowEdit="true"
-      @updateHeading="updateHeading"
-      @updateSubHeading="updateSubHeading"
-      @addToBackgroundImage="addToBackgroundImage"
-    />
-    <About
-      :site="site"
-      :allowEdit="true"
-      @updateAbout="updateAbout"
-    />
-    <OpeningHours
-      :allowEdit="true"
-      :site="site"
-      @updateOpeningHours="updateOpeningHours"
-    />
-    <Gallery
-      :site="site"
-      :allowEdit="true"
-      @updateGalleryDescription="updateGalleryDescription"
-      @addToGallery="addToGallery"
-    />
-    <Staff
-      :site="site"
-      :allowEdit="true"
-      @addStaff="addStaff"
-    />
-    <Products
-      :site="site"
-      :allowEdit="true"
-      @addProducts="addProducts"
-      @editBlock="editProducts"
-      @deleteBlock="deleteProductsBlock"
-    />
-    <Contact :site="site" />
+
+      <Banner
+        :site="site"
+        :allowEdit="true"
+        @updateHeading="updateHeading"
+        @updateSubHeading="updateSubHeading"
+        @addToBackgroundImage="addToBackgroundImage"
+      />
+
+    <div v-bind:key="section.id" v-for="section in site.frontend_opts.theme.sections">
+      <LeftImageText  
+        v-if="section.type === 'image_left' && section.enabled" 
+        :site="site" 
+        :section="section" 
+        :allowEdit="true"
+        @addImageToSection="addImageToSection"
+        @editSectionHeader="editSectionHeader"
+        @editSectionBody="editSectionBody"
+        />
+      <RightImageText 
+        v-if="section.type === 'image_right' && section.enabled" 
+        :site="site" 
+        :section="section"
+        :allowEdit="true" 
+        @addImageToSection="addImageToSection"
+        @editSectionHeader="editSectionHeader"
+        @editSectionBody="editSectionBody"
+        />
+      <ImageTextColumns 
+        v-if="section.type === 'column_image_text' && section.enabled" 
+        :site="site" 
+        :section="section"
+        :allowEdit="true" />
+        
+      <About
+        v-if="section.type === 'about' && section.enabled" 
+        :site="site"
+        :allowEdit="true"
+        @updateAbout="updateAbout"
+      />
+      
+      <OpeningHours
+        v-if="section.type === 'opening_hours' && section.enabled" 
+        :allowEdit="true"
+        :site="site"
+        @updateOpeningHours="updateOpeningHours"
+      />
+      
+      
+      <Gallery
+        v-if="section.type === 'site_gallery' && section.enabled" 
+        :site="site"
+        :allowEdit="true"
+        @updateGalleryDescription="updateGalleryDescription"
+        @addToGallery="addToGallery"
+      />
+
+      
+      <Staff
+        v-if="section.type === 'staff_list' && section.enabled" 
+        :site="site"
+        :allowEdit="true"
+        @addStaff="addStaff"
+      />
+
+      <Products
+        v-if="section.type === 'pricing_list' && section.enabled" 
+        :site="site"
+        :allowEdit="true"
+        @addProducts="addProducts"
+        @editBlock="editProducts"
+        @deleteBlock="deleteProductsBlock"
+      />
+
+      <Contact v-if="section.type === 'contact_form' && section.enabled"  :site="site" />
+      
+    </div>
+    
+    
     <Footer :site="site" :allowEdit="true" @updateSocialLinks="updateSocialLinks" />
     <div class="dialog" :class="dialog.open ? 'open': ''">
       <div class="card">
@@ -57,6 +100,8 @@
             placeholder="Banner Subheading.."
           ></textarea>
           <textarea v-if="dialog.target === 'about'" v-model="about" placeholder="About us text.."></textarea>
+          <textarea v-if="dialog.target === 'section_heading'" v-model="currentSection.heading_text" placeholder="Header text..."></textarea>
+          <textarea v-if="dialog.target === 'section_body'" v-model="currentSection.body_text" placeholder="Body text.."></textarea>
           <textarea
             v-if="dialog.target === 'galleryDescription'"
             v-model="gallery_description"
@@ -161,6 +206,12 @@
               <input type="file" id="backgroundImage" @change="onFilesSelected">
             </div>
           </div>
+          <div v-if="dialog.target === 'addToSection'">
+            <div class="form-control">
+              <label for="sectionImage">Select Image</label>
+              <input type="file" id="sectionImage" @change="onFilesSelected">
+            </div>
+          </div>
           <div v-if="dialog.target === 'updateSocialLinks'">
             <div class="form-control">
               <label for="facebook">Facebook</label>
@@ -188,7 +239,10 @@
               && dialog.target !== 'addStaff'
               && dialog.target !== 'addToGallery'
               && dialog.target !== 'addToBackgroundImage'
-              && dialog.target !== 'updateSocialLinks'"
+              && dialog.target !== 'addToSection'
+              && dialog.target !== 'updateSocialLinks'
+              && dialog.target !== 'section_heading'
+              && dialog.target !== 'section_body'"
             class="btn"
             @click="saveFrontendOpts"
           >Save</button>
@@ -197,7 +251,10 @@
           <button v-if="dialog.target === 'addStaff'" class="btn" @click="saveStaff">Save</button>
           <button v-if="dialog.target === 'addToGallery'" class="btn" @click="saveToGallery">Save</button>
           <button v-if="dialog.target === 'addToBackgroundImage'" class="btn" @click="saveBackgroundImage">Save</button>
+          <button v-if="dialog.target === 'addToSection'" class="btn" @click="saveSectionImage">Save</button>
           <button v-if="dialog.target === 'updateSocialLinks'" class="btn" @click="saveSocialLinks">Save</button>
+          <button v-if="dialog.target === 'section_heading'" class="btn" @click="saveSectionHeadingText">Save</button>
+          <button v-if="dialog.target === 'section_body'" class="btn" @click="saveSectionBodyText">Save</button>
           <button class="btn btn-error" @click="dialog.open = false">Close</button>
         </footer>
       </div>
@@ -209,6 +266,12 @@
 <script>
 import { landingPage } from "@/utils/landingPage.js"
 import ColorBox from "@/components/landingpage/ColorBox"
+import LeftImageText from "@/components/landingpage/LeftImageText";
+import RightImageText from "@/components/landingpage/RightImageText";
+import ImageTextColumns from "@/components/landingpage/ImageTextColumns";
+
+
+
 export default {
   mixins: [landingPage],
   data() {
@@ -217,11 +280,13 @@ export default {
       dialog: {
         open: false,
         title: null,
-        target: null
+        target: null,
+        id: null
       },
       heading: null,
       sub_heading: null,
       about: null,
+      currentSection: null,
       gallery_description: null,
       opening_hours: [],
       product: {
@@ -251,7 +316,7 @@ export default {
     }
   },
   components: {
-    ColorBox
+    ColorBox, LeftImageText, RightImageText, ImageTextColumns
   },
   methods: {
     onFilesSelected(event) {
@@ -329,6 +394,35 @@ export default {
       const payload = {staff, fd}
       this.$store.dispatch('addStaff', payload)
     },
+    editSectionHeader: function(section) {
+      console.log('dashboard:');
+      console.log(section);
+      this.dialog.title = "Update Header";
+      this.dialog.target = "section_heading";
+      this.dialog.id = section.id;
+      this.currentSection = { heading_text: section.data[0].heading_text, section_id: section.id };
+      
+
+      console.log(this.currentSection);
+
+      this.dialog.open = true;
+    },
+    editSectionBody: function(section) {
+      this.dialog.title = "Update Text"
+      this.dialog.target = "section_body"
+      this.dialog.id = section.id;
+      this.currentSection = { body_text: section.data[0].body_text, section_id: section.id };
+      
+      console.log(this.currentSection);
+
+      this.dialog.open = true
+    },
+    addImageToSection: function(section) {
+      this.dialog.title = 'Add Section Image';
+      this.dialog.target = 'addToSection';
+      this.dialog.open = true;
+      this.dialog.id = section.id;
+    },
     addToGallery() {
       this.dialog.title = "Add Gallery Images"
       this.dialog.target = "addToGallery"
@@ -349,6 +443,18 @@ export default {
         fd.append('gallery[]', this.selectedFiles[i])
       }
       this.$store.dispatch('addToGallery', fd)
+    },
+    saveSectionImage() {
+      if(!this.selectedFiles) return
+      
+      const fd = new FormData()
+      fd.append('file_source', 'section_image');
+      fd.append('image', this.selectedFiles[0]);
+      fd.append('section_id', this.dialog.id);
+
+      console.log('section_id: ' + this.dialog.id);
+      
+      this.$store.dispatch('addToSectionImage', fd)
     },
     saveBackgroundImage() {
       if(!this.selectedFiles) return
@@ -381,6 +487,12 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    async saveSectionHeadingText() {
+        await this.$store.dispatch('updateSectionHeadingText', { section_id: this.currentSection.section_id, index: 0, site_id: this.site.site_id, text: this.currentSection.heading_text });
+    },
+    async saveSectionBodyText() {
+        await this.$store.dispatch('updateSectionBodyText', { section_id: this.currentSection.section_id, index: 0, site_id: this.site.site_id, text: this.currentSection.body_text } );
     },
     async saveFrontendOpts() {
       const site = {

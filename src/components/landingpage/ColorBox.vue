@@ -11,28 +11,14 @@
         </div>
       </header>
       <div class="content">
-        <div class="theme-preview">
-          <ul class="custom">
-            <li v-bind:key="section.id" v-for="section in sections">
-            <h3>{{section.text.heading_text}}</h3>
-              <div class="input-group">
-              <label class="switch">
-                <input type="checkbox" v-model="section.enabled"/>
-                <span class="slider"></span>
-              </label>
-              </div>
-              Background:
-              <input type="color" v-model="section.background" />
-              Heading:
-              <input type="color" v-model="section.text.heading" />
-              Body:
-              <input type="color" v-model="section.text.body" />
-            </li>
-          </ul>
+  <v-container>
+    <v-layout row wrap>
+      <div class="theme-preview">
+          
           <h3>Add new section</h3>
           <button class="btn" @click="addSectionDialog = true">Add</button>
           
-          <h3>Themes:</h3>
+          <h3>Select button and icon color:</h3>
           <ul class="themes">
             <li
               v-for="(theme, index) in themes"
@@ -41,8 +27,17 @@
               @click="currentTheme = index + 1"
             ></li>
           </ul>
-          <img :src="'/img/theme' + currentTheme +'.jpg'" alt />
+          
         </div>
+    </v-layout>
+    <v-layout row wrap v-bind:key="section.id" v-for="section in sections">
+
+      <EditSectionBox @moveSectionUp="moveSectionUp" @moveSectionDown="moveSectionDown" :section="section" :site="site" />
+
+    </v-layout>
+ 
+  </v-container>
+        
       </div>
     </div>
   
@@ -50,10 +45,11 @@
 
 <script>
 import AddSectionModal from './AddSectionModal';
+import EditSectionBox from './EditSectionBox';
 
 export default {
   props: ['site', 'theme'],
-  components: { AddSectionModal },
+  components: { AddSectionModal, EditSectionBox },
   data() {
     return {
       themes: [
@@ -71,6 +67,7 @@ export default {
           name: 'About Section',
           type: 'heading_text',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -82,6 +79,7 @@ export default {
           name: 'Opening Hours Section',
           type: 'opening_hours',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -93,6 +91,7 @@ export default {
           name: 'Our Gallery Section',
           type: 'gallery',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -104,6 +103,7 @@ export default {
           name: 'Staff Section',
           type: 'staff_list',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -115,6 +115,7 @@ export default {
           name: 'Pricing Section',
           type: 'pricing_list',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -126,6 +127,7 @@ export default {
           name: 'Contact Section',
           type: 'contact_form',
           background: '#ffffff', 
+          data: [ { image_url: null, heading_text: '', body_text: ''} ],
           text: {
             heading: '#777777',
             body: '#777777'
@@ -143,6 +145,14 @@ export default {
     };
   },
   methods: {
+    async moveSectionUp(section_id) {
+      await this.$store.dispatch('moveSectionUp', section_id);
+      await this.$store.dispatch("getSite");
+    },
+    async moveSectionDown(section_id) {
+      await this.$store.dispatch('moveSectionDown', section_id);
+      await this.$store.dispatch("getSite");
+    },
     closeAddSectionDialog() {
       this.addSectionDialog = false;
     },
@@ -191,7 +201,11 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/_variables.scss";
 .colorbox {
-  
+  input[type="color"]{
+      margin-right: 24px;
+      border: 1px solid black;
+    }
+
     header {
       padding: 10px 0;
       background-color: #8bc34a;
@@ -236,11 +250,15 @@ export default {
     .custom {
       li {
         display: inline-block;
-        width: 50%;
+        width: 40%;
+        margin-right: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid gray;
       }
     }
     input[type="color"]{
       margin-right: 24px;
+      border: 1px solid black;
     }
     h3 {
       text-transform: uppercase;
@@ -260,6 +278,7 @@ export default {
     }
     li {
       line-height: 1.8;
+      
     }
   }
 }

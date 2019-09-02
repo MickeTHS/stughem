@@ -120,14 +120,12 @@ input[type="email"],
 input[type="tel"],
 input[type="password"] {
   border: none;
-  background-color: rgba(0, 0, 0, 0.08);
   color: #fff;
   font-size: 14px;
   padding: 12px 24px;
   border-radius: 23px;
 }
 input:-internal-autofill-selected {
-  background-color: rgba(0, 0, 0, 0.08) !important;
   color: #fff !important;
 }
 .btn {

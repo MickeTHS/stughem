@@ -108,6 +108,22 @@ export default new Vuex.Store({
       }
       const user = await axios.get('/user', data)
     },
+    async moveSectionUp({commit, dispatch, state}, payload) {
+      const config = { headers: {'x-access-token': state.token} }
+      const res = await axios.put('/site/movesection', { section_id: payload, dir: 'up' }, config)
+    },
+    async moveSectionDown({commit, dispatch, state}, payload) {
+      const config = { headers: {'x-access-token': state.token} }
+      const res = await axios.put('/site/movesection', { section_id: payload, dir: 'down' }, config)
+    },
+    async updateSectionHeadingText({commit, dispatch, state}, payload) {
+      const config = { headers: {'x-access-token': state.token} }
+      const res = await axios.put('/site/updateSectionHeading', payload, config)
+    }, 
+    async updateSectionBodyText({commit, dispatch, state}, payload) {
+      const config = { headers: {'x-access-token': state.token} }
+      const res = await axios.put('/site/updateSectionBody', payload, config)
+    },
     async createSite({commit, dispatch, state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
       const res = await axios.post('/site', payload.site, config)
@@ -173,6 +189,28 @@ export default new Vuex.Store({
       try {
         const res = await Axios.post('http://localhost:80/fileupload', fd, config)
         const message = 'Images uploaded successfully'
+        const snackbar = {
+          open: true,
+          message: message,
+          success: true
+        }
+        commit('showSnackbar', snackbar)
+        dispatch('getSite', state.site.site_id)
+      } catch (e) {
+        console.log('ERROR!!')
+        console.log(e.reason)
+      }
+    },
+    async addToSectionImage({commit, dispatch, state}, fd) {
+      const config = {
+        headers: {
+          'x-access-token': state.token,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      try {
+        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
           message: message,
