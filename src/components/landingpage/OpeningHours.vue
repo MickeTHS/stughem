@@ -1,18 +1,18 @@
 <template>
-  <section class="opening-hours" :style="{background: site.frontend_opts.theme.sections[1].background}">
+  <section class="opening-hours" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: site.frontend_opts.theme.sections[1].text.heading}">Opening Hours</h2>
+      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
       <ul>
         <i class="material-icons edit" v-if="allowEdit" :style="{background: site.frontend_opts.theme.primary}" @click="$emit('updateOpeningHours')">edit</i>
         <li v-for="(item, index) in site.opening_hours" :key="index">
           <div class="day">
-            <span :style="{background: site.frontend_opts.theme.sections[1].background, color: site.frontend_opts.theme.sections[1].text.body}">{{ item.day }}</span>
+            <span :style="{background: section.background, color: section.text.body}">{{ item.day }}</span>
           </div>
           <div class="morning">
-            <span :style="{background: site.frontend_opts.theme.sections[1].background, color: site.frontend_opts.theme.sections[1].text.body}" v-if="item.hours[0]">{{ item.hours[0] }} - {{ item.hours[1] }}</span><span v-else>site closed</span>
+            <span :style="{background: section.background, color: section.text.body}" v-if="item.hours[0]">{{ item.hours[0] }} - {{ item.hours[1] }}</span><span v-else>site closed</span>
           </div>
           <div class="afternoon">
-            <span :style="{background: site.frontend_opts.theme.sections[1].background, color: site.frontend_opts.theme.sections[1].text.body}" v-if="item.hours[2]">{{ item.hours[2] }} - {{ item.hours[3] }}</span><span v-else>site closed</span>
+            <span :style="{background: section.background, color: section.text.body}" v-if="item.hours[2]">{{ item.hours[2] }} - {{ item.hours[3] }}</span><span v-else>site closed</span>
           </div>
         </li>
       </ul>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  props: ['allowEdit', 'site']
+  props: ['allowEdit', 'site', 'section']
 };
 </script>
 

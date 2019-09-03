@@ -5,7 +5,7 @@
           class="headline grey lighten-2"
           primary-title
         >
-          Click on the section type you wish to add
+          KLICKA TYPEN DU VILL LÄGGA TILL
         </v-card-title>
         <div>
         <v-item-group>
@@ -33,7 +33,7 @@
                   v-if="section.active"
                   class="display-3 flex-grow-1 text-center"
                 >
-                  Selected
+                  Vald
                 </div>
               </v-scroll-y-transition>
             </v-card>
@@ -53,7 +53,7 @@
             :disabled="!enabled_button"
             @click="confirmAddNewSection()"
           >
-            Continue
+            Fortsätt
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -4,9 +4,9 @@
     
       <header :style="{background: site.frontend_opts.theme.primary}">
         <div class="container">
-          <h2>Update Theme And Sections Layout</h2>
+          <h2>Uppdatera färger och sektioner</h2>
           <div class="controls">
-            <button class="btn" @click="updateTheme">Save</button>
+            <button class="btn" @click="updateTheme">Spara</button>
           </div>
         </div>
       </header>
@@ -15,10 +15,10 @@
     <v-layout row wrap>
       <div class="theme-preview">
           
-          <h3>Add new section</h3>
-          <button class="btn" @click="addSectionDialog = true">Add</button>
+          <h3>Lägg till ny sektion</h3>
+          <button class="btn" @click="addSectionDialog = true">Lägg till</button>
           
-          <h3>Select button and icon color:</h3>
+          <h3>Välj färg på knappar</h3>
           <ul class="themes">
             <li
               v-for="(theme, index) in themes"

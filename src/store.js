@@ -201,6 +201,49 @@ export default new Vuex.Store({
         console.log(e.reason)
       }
     },
+    async updateSectionData({ commit, dispatch, state}, payload) {
+      const config = {
+        headers: {
+          'x-access-token': state.token
+        }
+      }
+      try {
+        const res = await Axios.put('http://localhost:80/api/site/updateSectionData', payload, config)
+        const message = 'Section updated successfully'
+        const snackbar = {
+          open: true,
+          message: message,
+          success: true
+        }
+        commit('showSnackbar', snackbar)
+        dispatch('getSite', state.site.site_id)
+      } catch (e) {
+        console.log('ERROR!!')
+        console.log(e.reason)
+      }
+    },
+    async addSectionColumnImage({commit, dispatch, state}, fd) {
+      const config = {
+        headers: {
+          'x-access-token': state.token,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      try {
+        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const message = 'Image uploaded successfully'
+        const snackbar = {
+          open: true,
+          message: message,
+          success: true
+        }
+        commit('showSnackbar', snackbar)
+        dispatch('getSite', state.site.site_id)
+      } catch (e) {
+        console.log('ERROR!!')
+        console.log(e.reason)
+      }
+    },
     async addToSectionImage({commit, dispatch, state}, fd) {
       const config = {
         headers: {

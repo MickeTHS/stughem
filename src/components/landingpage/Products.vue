@@ -1,17 +1,17 @@
 <template>
-  <section class="products" id="products" :style="{background: site.frontend_opts.theme.sections[4].background}">
+  <section class="products" id="products" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: site.frontend_opts.theme.sections[4].text.heading}">Our Pricing</h2>
+      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
       <div class="grid">
         <i class="material-icons add" v-if="allowEdit" :style="{background: site.frontend_opts.theme.primary}" @click="$emit('addProducts')">add</i>
         <div class="col" v-for="(block, i) in site.products" :key="i">
           <i class="material-icons delete" v-if="allowEdit" @click="$emit('deleteBlock', block.id)">delete</i>
           <i class="material-icons edit" v-if="allowEdit" @click="$emit('editBlock', block.id)">edit</i>
-          <h3 :style="{color: site.frontend_opts.theme.sections[4].text.heading}">{{ block.title }}</h3>
+          <h3 :style="{color: section.text.heading}">{{ block.title }}</h3>
           <ul>
             <li v-for="(service, j) in block.services" :key="j">
-              <span :style="{background: site.frontend_opts.theme.sections[4].background, color: site.frontend_opts.theme.sections[4].text.body}">{{ service.title }}</span>
-              <span :style="{color: site.frontend_opts.theme.primary, background: site.frontend_opts.theme.sections[4].background}">{{ service.price }} SEK</span>
+              <span :style="{background: section.background, color: section.text.body}">{{ service.title }}</span>
+              <span :style="{color: site.frontend_opts.theme.primary, background: section.background}">{{ service.price }} SEK</span>
             </li>
           </ul>
         </div>

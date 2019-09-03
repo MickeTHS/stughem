@@ -1,70 +1,41 @@
 <template>
   <section class="about" id="about" :style="{background: section.background}">
     <v-container>
+        <v-layout v-if="allowEdit" row wrap style="margin-bottom: 10px;">
+          <v-btn color="primary" @click="addColumn">Lägg till ny kolumn</v-btn>
+          <v-btn color="primary" @click="updateColumnSection">Spara ändringar</v-btn>
+        </v-layout>
         <v-layout row wrap>
             <v-flex 
-                v-bind:key="image_url" v-for="image_url in section.image_urls"
-                v-bind="{[`xs${section.image_urls.length / 12}`]: true}"
-                
+                v-bind:key="index" v-for="(data, index) in section.data"
+                v-bind="{[`xs${12 / section.data.length}`]: true}"
                 >
-                <v-card
-                    class="mx-auto"
-                >
+                <v-card style="margin-right: 10px;">
+                    <v-btn v-if="allowEdit" color="primary" @click="currentColumnImageEdit = index">Ladda upp bild</v-btn>
                     <v-img
-                    :src="image_url"
+                    :src="data.image_url == null ? 'http://localhost/data/sunset.jpg' : data.image_url"
                     height="200px"
                     ></v-img>
 
                     <v-card-title>
-                    <div>Top western road trips</div>
-                    <span class="grey--text subtitle-1">1,000 miles of wonder</span>
+                    <div v-if="allowEdit"><input :style="{color: section.text.heading_color}" class="edit-heading" type="text" v-model="data.heading_text" /></div>
+                    <div v-if="!allowEdit" :style="{color: section.text.heading_color}">{{ data.heading_text }}</div>
                     </v-card-title>
 
                     <v-card-actions>
-                    <v-btn text>Share</v-btn>
-
-                    <v-btn
-                        text
-                        color="purple"
-                    >
-                        Explore
-                    </v-btn>
 
                     <div class="flex-grow-1"></div>
-
-                    <v-btn
-                        icon
-                        @click="show = !show"
-                    >
-                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                    </v-btn>
                     </v-card-actions>
 
                     <v-expand-transition>
-                    <div v-show="show">
-                        <v-card-text>
-                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                        </v-card-text>
-                    </div>
+                      <v-card-text>
+                    <span class="grey--text subtitle-1">
+                      <textarea v-if="allowEdit" :style="{color: section.text.body_color}" v-model="data.body_text"></textarea>
+                      <p :style="{color: section.text.body_color}" v-if="!allowEdit">{{ data.body_text }}</p>
+                    </span>
+                    </v-card-text>
                     </v-expand-transition>
                 </v-card>
-
-                
-                <v-img
-                    src="http://wowslider.com/sliders/demo-93/data1/images/sunset.jpg"
-                    lazy-src="https://picsum.photos/id/11/10/6"
-                    class="grey lighten-2"
-                    aspect-ratio="2"
-                ></v-img>
-                <i class="material-icons add" v-if="allowEdit" :section="section" @click="addImageToSection" :style="{background: site.frontend_opts.theme.primary}">add</i>
-            </v-flex>
-            <v-flex xs6>
-                <v-card height="100%">
-                    <v-card-title :style="{color: section.text.heading_color}">{{ section.text.heading_text }}</v-card-title>
-                    <v-card-text :style="{color: section.text.body_color}">{{ section.text.body_text }} {{ section.text.body_color }}</v-card-text>
-                    
-                </v-card>
-                
             </v-flex>
         </v-layout>
     </v-container>
@@ -74,90 +45,55 @@
 <script>
 export default {
   props: ['allowEdit', 'site', 'section'],
+  data() {
+    return {
+      currentColumnImageEdit: -1
+    }
+  },
+  watch: {
+    currentColumnImageEdit: function (newcolumn, oldcolumn) {
+      this.$emit('addSectionColumnImage', this.section, newcolumn);
+    }
+  },
   methods: {
-      addImageToSection() {
-          this.$emit('addImageToSection', this.section);
+      addColumn() {
+        this.section.data.push({ image_src: null, heading_text: 'Ny rubrik', body_text: 'Fyll i beskrivning här' });
+        var payload = {
+          site_id: this.site.site_id,
+          section_id: this.section.id,
+          data: this.section.data
+        }
+
+        this.$emit('updateSectionData', payload);
+      },
+      updateColumnSection() {
+        var payload = {
+          site_id: this.site.site_id,
+          section_id: this.section.id,
+          data: this.section.data
+        }
+
+        this.$emit('updateSectionData', payload);
       }
   }
 }
 </script>
 
-<style lang="scss">
-.about {
-  overflow: hidden;
-  .grid {
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    .col {
-      &:first-child {
-        position: absolute;
-        left: 0;
-        top: -3%;
-        height: 106%;
-        width: 60%;
-        background-size: cover !important;
-      }
-      &:last-child {
-        float: right;
-        z-index: 2;
-        position: relative;
-        background: rgba(249, 249, 249, 0.95);
-        box-shadow: 0 0 10px rgba(66, 66, 66, 0.1);
-        padding: 40px;
-        width: 60%;
-        flex-grow: 0;
-        p {
-          line-height: 1.8;
-          width: 100%;
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
-    }
-  }
+<style scoped>
+
+.edit-heading {
+  border: 1px solid #dedede;;
+  padding: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 0px;
 }
-@media (max-width: 900px) {
-  .about {
-    .grid {
-      .col {
-        &:last-child {
-          width: 80%;
-        }
-      }
-    }
-  }
+
+textarea {
+  width: 95%;
+  border: 1px solid #dedede;
+  padding: 8px;
 }
-@media (max-width: 600px) {
-  .about {
-    .grid {
-      .col {
-        &:first-child {
-          display: none;
-        }
-        &:last-child {
-          width: 100%;
-          box-shadow: none;
-        }
-      }
-    }
-  }
-}
-@media (max-width: 400px) {
-  .about {
-    .grid {
-      .col {
-        &:last-child {
-          padding: 0;
-          background-color: #fff;
-          text-align: justify;
-        }
-      }
-    }
-  }
-}
+
 </style>
 

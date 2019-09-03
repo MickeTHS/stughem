@@ -10,7 +10,7 @@
         <div class="overline mb-4">{{ section.type }}</div>
         <v-list-item-title class="headline mb-1">
           <v-text-field
-                label="Section Name"
+                label="Titel"
                 :value="heading_text"
               ></v-text-field>
         </v-list-item-title>
@@ -27,7 +27,7 @@
             <v-layout row wrap>
               <v-flex xs4>
                 
-                <p>Enabled:</p>
+                <p>Synlig:</p>
               </v-flex>
               <v-flex xs2>
                 <div class="input-group">
@@ -40,7 +40,7 @@
             </v-layout>
             <v-layout row wrap>
               <v-flex xs4>
-                <p>Background Color:</p>
+                <p>Bakgrundsfärg:</p>
               </v-flex>
               <v-flex xs2>
                 <input type="color" v-model="section.background" />
@@ -48,7 +48,7 @@
             </v-layout>
             <v-layout row wrap>
               <v-flex xs4>
-                <p>Title Color:</p>
+                <p>Rubrikfärg:</p>
               </v-flex>
               <v-flex xs2>
                 <input type="color" v-model="section.text.heading_color" />
@@ -56,7 +56,7 @@
             </v-layout>
             <v-layout row wrap>
               <v-flex xs4>
-                <p>Text Color:</p>
+                <p>Textfärg:</p>
               </v-flex>
               <v-flex xs2>
                 <input type="color" v-model="section.text.body_color" />
@@ -65,9 +65,9 @@
           </v-container>
         </v-card-text>
       <v-card-actions>
-        <v-btn text @click="moveSectionUp">MOVE UP</v-btn>
-        <v-btn text @click="moveSectionDown">MOVE DOWN</v-btn>
-        <v-btn text color="error">DELETE</v-btn>
+        <v-btn text @click="moveSectionUp">Flytta upp</v-btn>
+        <v-btn text @click="moveSectionDown">Flytta ner</v-btn>
+        <v-btn text color="error">Radera</v-btn>
       </v-card-actions>
     </v-card>
     <!-- end card -->

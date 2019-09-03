@@ -1,12 +1,12 @@
 <template>
   <section class="about" id="about" :style="{background: site.frontend_opts.theme.sections[0].background}">
     <div class="container">
-      <h2 :style="{color: site.frontend_opts.theme.sections[0].text.heading}">Who We Are</h2>
+      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }} </h2>
       <div class="grid">
         <div class="col" :style="{background: 'url(' + site.frontend_opts.backgroundImageURL + ')'}"></div>
         <div class="col">
           <i class="material-icons edit" v-if="allowEdit" @click="$emit('updateAbout')" :style="{background: site.frontend_opts.theme.primary}">edit</i>
-          <p :style="{color: site.frontend_opts.theme.sections[0].text.body}">{{ site.frontend_opts.about }}</p>
+          <p :style="{color: section.text.body_color}">{{ site.frontend_opts.about }}</p>
         </div>
         
       </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ['allowEdit', 'site']
+  props: ['allowEdit', 'site', 'section']
 }
 </script>
 

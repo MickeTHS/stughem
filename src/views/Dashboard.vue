@@ -34,11 +34,15 @@
         v-if="section.type === 'column_image_text' && section.enabled" 
         :site="site" 
         :section="section"
-        :allowEdit="true" />
+        :allowEdit="true"
+        @addSectionColumnImage="addSectionColumnImage"
+        @updateSectionData="updateSectionData"
+         />
         
       <About
         v-if="section.type === 'about' && section.enabled" 
         :site="site"
+        :section="section"
         :allowEdit="true"
         @updateAbout="updateAbout"
       />
@@ -46,6 +50,7 @@
       <OpeningHours
         v-if="section.type === 'opening_hours' && section.enabled" 
         :allowEdit="true"
+        :section="section"
         :site="site"
         @updateOpeningHours="updateOpeningHours"
       />
@@ -54,6 +59,7 @@
       <Gallery
         v-if="section.type === 'site_gallery' && section.enabled" 
         :site="site"
+        :section="section"
         :allowEdit="true"
         @updateGalleryDescription="updateGalleryDescription"
         @addToGallery="addToGallery"
@@ -63,6 +69,7 @@
       <Staff
         v-if="section.type === 'staff_list' && section.enabled" 
         :site="site"
+        :section="section"
         :allowEdit="true"
         @addStaff="addStaff"
       />
@@ -70,13 +77,14 @@
       <Products
         v-if="section.type === 'pricing_list' && section.enabled" 
         :site="site"
+        :section="section"
         :allowEdit="true"
         @addProducts="addProducts"
         @editBlock="editProducts"
         @deleteBlock="deleteProductsBlock"
       />
 
-      <Contact v-if="section.type === 'contact_form' && section.enabled"  :site="site" />
+      <Contact v-if="section.type === 'contact_form' && section.enabled" :section="section" :site="site" />
       
     </div>
     
@@ -155,7 +163,7 @@
           </div>
           <div v-if="dialog.target === 'addStaff'">
             <div class="form-control">
-              <label for="firstname">First Name:</label>
+              <label for="firstname">Förnamn:</label>
               <input
                 type="text"
                 id="firstname"
@@ -164,7 +172,7 @@
               />
             </div>
             <div class="form-control">
-              <label for="lastname">Last Name:</label>
+              <label for="lastname">Efternamn:</label>
               <input
                 type="text"
                 id="lastname"
@@ -173,7 +181,7 @@
               />
             </div>
             <div class="form-control">
-              <label for="staffTitle">Title:</label>
+              <label for="staffTitle">Titel:</label>
               <input
                 type="text"
                 id="staffTitle"
@@ -182,36 +190,45 @@
               />
             </div>
             <div class="form-control">
-              <label for="email">Email</label>
+              <label for="email">Epost</label>
               <input type="text" id="email" v-model="staff.email" placeholder="Staff Email" />
             </div>
             <div class="form-control">
-              <label for="phone">Phone</label>
+              <label for="phone">Tel</label>
               <input type="text" id="phone" v-model="staff.phone" placeholder="Staff Phone" />
             </div>
             <div class="form-control">
-              <label for="logo">Staff Photo</label>
+              <label for="logo">Bild</label>
               <input type="file" id="logo" @change="onFilesSelected" />
             </div>
           </div>
           <div v-if="dialog.target === 'addToGallery'">
             <div class="form-control">
-              <label for="gallery">Select Images</label>
+              <label for="gallery">Välj bild</label>
               <input type="file" id="gallery" @change="onFilesSelected" multiple>
             </div>
           </div>
           <div v-if="dialog.target === 'addToBackgroundImage'">
             <div class="form-control">
-              <label for="backgroundImage">Select Image</label>
+              <label for="backgroundImage">Välj bild</label>
               <input type="file" id="backgroundImage" @change="onFilesSelected">
             </div>
           </div>
           <div v-if="dialog.target === 'addToSection'">
             <div class="form-control">
-              <label for="sectionImage">Select Image</label>
+              <label for="sectionImage">Välj bild</label>
               <input type="file" id="sectionImage" @change="onFilesSelected">
             </div>
           </div>
+          <div v-if="dialog.target === 'addSectionColumnImage'">
+            <div class="form-control">
+              <label for="sectionImage">Välj bild</label>
+              <input type="file" id="sectionImage" @change="onFilesSelected">
+            </div>
+          </div>
+          
+          
+
           <div v-if="dialog.target === 'updateSocialLinks'">
             <div class="form-control">
               <label for="facebook">Facebook</label>
@@ -240,22 +257,24 @@
               && dialog.target !== 'addToGallery'
               && dialog.target !== 'addToBackgroundImage'
               && dialog.target !== 'addToSection'
+              && dialog.target !== 'addSectionColumnImage'
               && dialog.target !== 'updateSocialLinks'
               && dialog.target !== 'section_heading'
               && dialog.target !== 'section_body'"
             class="btn"
             @click="saveFrontendOpts"
-          >Save</button>
-          <button v-if="dialog.target === 'openingHours'" class="btn" @click="saveOpeningHours">Save</button>
-          <button v-if="dialog.target === 'addProducts' || dialog.target === 'editProducts'" class="btn" @click="saveProducts">Save</button>
-          <button v-if="dialog.target === 'addStaff'" class="btn" @click="saveStaff">Save</button>
-          <button v-if="dialog.target === 'addToGallery'" class="btn" @click="saveToGallery">Save</button>
-          <button v-if="dialog.target === 'addToBackgroundImage'" class="btn" @click="saveBackgroundImage">Save</button>
-          <button v-if="dialog.target === 'addToSection'" class="btn" @click="saveSectionImage">Save</button>
-          <button v-if="dialog.target === 'updateSocialLinks'" class="btn" @click="saveSocialLinks">Save</button>
-          <button v-if="dialog.target === 'section_heading'" class="btn" @click="saveSectionHeadingText">Save</button>
-          <button v-if="dialog.target === 'section_body'" class="btn" @click="saveSectionBodyText">Save</button>
-          <button class="btn btn-error" @click="dialog.open = false">Close</button>
+          >Spara</button>
+          <button v-if="dialog.target === 'openingHours'" class="btn" @click="saveOpeningHours">Spara</button>
+          <button v-if="dialog.target === 'addProducts' || dialog.target === 'editProducts'" class="btn" @click="saveProducts">Spara</button>
+          <button v-if="dialog.target === 'addStaff'" class="btn" @click="saveStaff">Spara</button>
+          <button v-if="dialog.target === 'addToGallery'" class="btn" @click="saveToGallery">Spara</button>
+          <button v-if="dialog.target === 'addToBackgroundImage'" class="btn" @click="saveBackgroundImage">Spara</button>
+          <button v-if="dialog.target === 'addToSection'" class="btn" @click="saveSectionImage">Spara</button>
+          <button v-if="dialog.target === 'updateSocialLinks'" class="btn" @click="saveSocialLinks">Spara</button>
+          <button v-if="dialog.target === 'section_heading'" class="btn" @click="saveSectionHeadingText">Spara</button>
+          <button v-if="dialog.target === 'section_body'" class="btn" @click="saveSectionBodyText">Spara</button>
+          <button v-if="dialog.target === 'addSectionColumnImage'" class="btn" @click="saveSectionColumnImage">Spara</button>
+          <button class="btn btn-error" @click="dialog.open = false">Stäng</button>
         </footer>
       </div>
     </div>
@@ -417,6 +436,13 @@ export default {
 
       this.dialog.open = true
     },
+    addSectionColumnImage: function(section, columnIndex) {
+      this.dialog.title = 'Add Column Section Image';
+      this.dialog.target = 'addSectionColumnImage';
+      this.dialog.open = true;
+      this.dialog.id = section.id;
+      this.dialog.column_index = columnIndex;
+    },
     addImageToSection: function(section) {
       this.dialog.title = 'Add Section Image';
       this.dialog.target = 'addToSection';
@@ -443,6 +469,19 @@ export default {
         fd.append('gallery[]', this.selectedFiles[i])
       }
       this.$store.dispatch('addToGallery', fd)
+    },
+    saveSectionColumnImage() {
+      if(!this.selectedFiles) return
+      
+      const fd = new FormData()
+      fd.append('file_source', 'section_column_image');
+      fd.append('image', this.selectedFiles[0]);
+      fd.append('section_id', this.dialog.id);
+      fd.append('column_index', this.dialog.column_index);
+      
+      console.log('section_id: ' + this.dialog.id);
+      
+      this.$store.dispatch('addSectionColumnImage', fd)
     },
     saveSectionImage() {
       if(!this.selectedFiles) return
@@ -487,6 +526,11 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    async updateSectionData(payload) {
+      console.log('payload')
+      console.log(payload)
+      await this.$store.dispatch('updateSectionData', payload);
     },
     async saveSectionHeadingText() {
         await this.$store.dispatch('updateSectionHeadingText', { section_id: this.currentSection.section_id, index: 0, site_id: this.site.site_id, text: this.currentSection.heading_text });

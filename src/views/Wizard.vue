@@ -2,34 +2,35 @@
   <main class="wizard">
     <div class="container">
       <div class="box">
-        <h1>Step {{ currentStep }}/{{ totalSteps }}</h1>
+        <h1>Steg {{ currentStep }}/{{ totalSteps }}</h1>
         <form action>
           <div class="step" v-if="currentStep === 1">
-            <label for>What is your site name?</label>
+            <label for>Ange ett namn på din stuga</label>
             <div class="input-group">
-              <input type="text" v-model="site.name" placeholder="e.g Tech Palace Site" />
+              <input type="text" v-model="site.name" placeholder="Exempel: Norrskenet, Nilssons Stuga" />
               <button class="btn btn-circle" @click.prevent="nextStep">
                 <i class="material-icons arrow">arrow_forward</i>
               </button>
             </div>
+            
           </div>
           <div class="step" v-if="currentStep === 2">
-            <label for>What is your Organization Number?</label>
+            <label for>Vad är ditt personnummer?</label>
             <div class="input-group">
-              <input type="text" v-model="site.org_number" placeholder="Enter the Organization Number" />
+              <input type="text" v-model="site.org_number" placeholder="Ditt personnr" />
               <button class="btn btn-circle" @click.prevent="nextStep">
                 <i class="material-icons arrow">arrow_forward</i>
               </button>
             </div>
           </div>
           <div class="step" v-if="currentStep === 3">
-            <label>Where is your site located?</label>
+            <label>Vart ligger stugan?</label>
             <div class="grid">
               <div class="col">
                 <input
                   type="text"
                   v-model="site.street"
-                  placeholder="Street Name"
+                  placeholder="Gatuadress"
                   autocomplete="nope"
                 />
               </div>
@@ -37,7 +38,7 @@
                 <input
                   type="text"
                   v-model="site.street_no"
-                  placeholder="Street No"
+                  placeholder="Nummer"
                   autocomplete="nope"
                 />
               </div>
@@ -45,7 +46,7 @@
                 <input
                   type="text"
                   v-model="site.postal_code"
-                  placeholder="ZIP Code"
+                  placeholder="Postkod"
                   autocomplete="nope"
                 />
               </div>
@@ -53,76 +54,69 @@
                 <input
                   type="text"
                   v-model="site.postal_address"
-                  placeholder="Postal Address"
+                  placeholder="Postort"
                   autocomplete="nope"
                 />
               </div>
               <div class="col">
-                <input type="text" v-model="site.city" placeholder="City" autocomplete="nope" />
+                <input type="text" v-model="site.city" placeholder="Stad" autocomplete="nope" />
               </div>
             </div>
             <button class="btn" @click.prevent="nextStep">
-              Next
+              Nästa
               <i class="material-icons arrow">arrow_forward</i>
             </button>
           </div>
           <div class="step" v-if="currentStep === 4">
-            <label for>Email Address</label>
+            <label for>E-post synlig för dina gäster</label>
             <input
               type="email"
               v-model="site.emails"
-              placeholder="e.g contact@domain.com"
+              placeholder="T.ex kontakt@mindoman.se"
               autocomplete="nope"
             />
-            <label for>Phone Number</label>
+            <label for>Telefon synlig för dina gäster</label>
             <input
               type="tel"
               v-model="site.phone_numbers"
-              placeholder="e.g +1845 1451 125"
+              placeholder="T.ex +4673 000 00 00"
               autocomplete="nope"
             />
             <button class="btn" @click.prevent="nextStep">
-              Next
+              Nästa
               <i class="material-icons arrow">arrow_forward</i>
             </button>
           </div>
           <div class="step" v-if="currentStep === 5">
-            <label for>Add features</label>
+            <label for>Välj funktioner</label>
             <div class="input-group">
               <label class="switch">
                 <input type="checkbox" v-model="site.features.online_booking" />
                 <span class="slider"></span>
               </label>
-              <p>Enable Online Booking</p>
+              <p>Gäster kan boka via hemsidan</p>
             </div>
             <div class="input-group">
               <label class="switch">
                 <input type="checkbox" v-model="site.features.sms_alert" />
                 <span class="slider"></span>
               </label>
-              <p>Enable SMS Alert</p>
-            </div>
-            <div class="input-group">
-              <label class="switch">
-                <input type="checkbox" v-model="site.features.email_alert" />
-                <span class="slider"></span>
-              </label>
-              <p>Enable Email alert</p>
+              <p>Gör SMS informationutskick till gäster</p>
             </div>
             <div class="input-group">
               <label class="switch">
                 <input type="checkbox" v-model="site.features.customer_reviews" />
                 <span class="slider"></span>
               </label>
-              <p>Enable Customer Reviews</p>
+              <p>Gästrecensioner</p>
             </div>
             <button class="btn" @click.prevent="nextStep">
-              Next
+              Nästa
               <i class="material-icons arrow">arrow_forward</i>
             </button>
           </div>
           <div class="step" v-if="currentStep === 6">
-            <label for="theme">Color theme:</label>
+            <label for="theme">Färgtema:</label>
             <div class="theme" id="theme">
               <label
                 class="theme-item"
@@ -138,14 +132,14 @@
                 />
               </label>
             </div>
-            <label for="logo">Business logo:</label>
+            <label for="logo">Logotyp:</label>
             <input type="file" ref="logo" name="logo" placeholder="Logo" @change="handleLogoFile"/>
             <!-- 
               this need to be adjusted
               to work with formData
             -->
             <button class="btn" @click.prevent="nextStep">
-              Submit
+              Fortsätt
               <i class="material-icons arrow">arrow_forward</i>
             </button>
           </div>
@@ -155,36 +149,36 @@
                 <input type="checkbox" v-model="site.frontend_opts.hasDomain" />
                 <span class="slider"></span>
               </label>
-              <p>Does your site have a domain name?</p>
+              <p>Har din stuga en domän idag?</p>
             </div>
             <div class="input-group" v-if="!site.frontend_opts.hasDomain">
               <label class="switch">
                 <input type="checkbox" v-model="site.frontend_opts.createDomain" />
                 <span class="slider"></span>
               </label>
-              <p>Would you like to create a domain?</p>
+              <p>Vill du skapa en domän?</p>
             </div>
             <div class="form-control" v-if="site.frontend_opts.hasDomain">
-              <label for>What's the address to your site website</label>
+              <label for>Vad är webbsidans adress?</label>
               <input
                 type="text"
                 v-model="site.frontend_opts.existingDomain"
-                placeholder="e.g https://www.awesomesite.com/"
+                placeholder="T.ex https://www.awesomesite.com/"
               />
             </div>
             <div
               class="form-control"
               v-if="site.frontend_opts.createDomain && !site.frontend_opts.hasDomain"
             >
-              <label for>Enter desired domain name</label>
+              <label for>Skriv in önskad domän</label>
               <input
                 type="text"
                 v-model="site.frontend_opts.desiredDomain"
-                placeholder="e.g awesomesite.com"
+                placeholder="T.ex awesomesite.com"
               />
             </div>
             <button class="btn" @click.prevent="submit">
-              Submit
+              Skapa sida
               <i class="material-icons arrow">arrow_forward</i>
             </button>
           </div>
@@ -300,7 +294,7 @@ export default {
       // this.site.gallery = sample.gallery
       this.site.products = sample.products
       this.site.staff = sample.staff
-      this.site.frontend_opts.heading = `Welcome to ${this.site.name} Site`
+      this.site.frontend_opts.heading = `Välkommen till ${this.site.name}`
       this.site.frontend_opts.sub_heading = sample.frontend_opts.sub_heading
       this.site.frontend_opts.about = sample.frontend_opts.about
       this.site.frontend_opts.gallery_description = sample.frontend_opts.gallery_description
@@ -433,15 +427,15 @@ export default {
           }
 
           input {
+            border: 1px solid gray;
+            border-radius: 0px;
+            background-color: white;
             display: block;
             margin: 8px 0 16px;
             width: 100%;
-            color: rgba(255, 255, 255, 0.7);
-            &[type="file"] {
-              color: #fff;
-            }
+            color: black;
             &::placeholder {
-              color: rgba(255, 255, 255, 0.7);
+              color: gray;
             }
             &.invalid {
               background-color: rgba(244, 67, 54, 0.3);

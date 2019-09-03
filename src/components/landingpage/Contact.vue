@@ -1,7 +1,7 @@
 <template>
-  <section class="contact" id="contact" :style="{background: site.frontend_opts.theme.sections[5].background}">
+  <section class="contact" id="contact" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: site.frontend_opts.theme.sections[5].text.heading}">Contact Us</h2>
+      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
       <div class="grid">
         <div class="col col-6 map-wrapper">
           <div class="map">
@@ -9,9 +9,9 @@
           </div>
         </div>
         <div class="col col-6 contact-info">
-          <p :style="{color: site.frontend_opts.theme.sections[5].text.body}">Send us a message using this form! Or contact us directly using the following:</p>
+          <p :style="{color: section.text.body}">{{ section.data[0].body_text }}</p>
           <ul class="contact-info">
-            <li :style="{color: site.frontend_opts.theme.sections[5].text.body}">
+            <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">location_on</i>
               {{ site.street }}
               {{ site.street_no }},
@@ -20,11 +20,11 @@
               {{ site.postal_code || site.postal_area ? ', ' : ''}}
               {{ site.city }}
             </li>
-            <li :style="{color: site.frontend_opts.theme.sections[5].text.body}">
+            <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">phone_in_talk</i>
               {{ site.phone_numbers }}
             </li>
-            <li :style="{color: site.frontend_opts.theme.sections[5].text.body}">
+            <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">message</i>
               {{ site.emails }}
             </li>
@@ -32,12 +32,12 @@
         </div>
         <div class="col col-12">
           <form action>
-            <input type="text" placeholder="Enter Your Name" />
-            <input type="email" placeholder="Enter Your Email" />
-            <input type="tel" placeholder="Enter Your Phone" />
-            <input type="text" placeholder="Title" />
-            <textarea name="message" placeholder="Message"></textarea>
-            <button class="btn" :style="{background: site.frontend_opts.theme.primary}">Submit</button>
+            <input type="text" placeholder="Ditt namn" />
+            <input type="email" placeholder="Din Epost" />
+            <input type="tel" placeholder="Ditt telefonnummer" />
+            <input type="text" placeholder="Titel" />
+            <textarea name="message" placeholder="Meddelanda"></textarea>
+            <button class="btn" :style="{background: site.frontend_opts.theme.primary}">Skicka!</button>
           </form>
         </div>
       </div>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  props: ['site', 'theme']
+  props: ['site', 'theme', 'section']
 };
 </script>
 

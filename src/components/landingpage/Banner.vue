@@ -10,7 +10,7 @@
           <i class="material-icons edit" v-if="allowEdit" @click="$emit('updateSubHeading')" :style="{background: site.frontend_opts.theme.primary}">edit</i>
           {{ site.frontend_opts.sub_heading }}
         </p>
-        <router-link to="/book" tag="a" class="btn" :style="{background: site.frontend_opts.theme.primary}">Book Now</router-link>
+        <router-link to="/book" tag="a" class="btn" :style="{background: site.frontend_opts.theme.primary}">Boka nu</router-link>
         <p>
           <button class="btn-edit" v-if="allowEdit" @click="$emit('addToBackgroundImage')">Ändra bakgrundsbild</button>
         </p>

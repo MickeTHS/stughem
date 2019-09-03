@@ -1,8 +1,8 @@
 <template>
-  <section class="gallery" id="gallery" :style="{background: site.frontend_opts.theme.sections[2].background}">
+  <section class="gallery" id="gallery" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: site.frontend_opts.theme.sections[2].text.heading}">Our Gallery</h2>
-      <p :style="{color: site.frontend_opts.theme.sections[2].text.body}">
+      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
+      <p :style="{color: section.text.body}">
         <i
           class="material-icons edit"
           v-if="allowEdit"

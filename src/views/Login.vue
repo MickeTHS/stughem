@@ -1,21 +1,21 @@
 <template>
   <main class="login">
     <div class="container">
-      <h1>Login</h1>
+      <h1>Logga in</h1>
       <p>
-        Don’t have an account?
-        <router-link to="/signup" tag="a">Sign Up</router-link>
+        Har du inget konto?
+        <router-link to="/signup" tag="a">Skapa konto</router-link>
       </p>
       <div class="login-area">
         <div class="email-login">
           <form action>
-            <input type="email" placeholder="Enter Your Email" v-model="email" />
-            <input type="password" placeholder="Enter Your Password" v-model="password" />
+            <input type="email" placeholder="Skriv E-post" v-model="email" />
+            <input type="password" placeholder="Skriv lösenord" v-model="password" />
             <div class="controls">
               <Checkbox :label="'Remember me'" v-model="remember" />
-              <a href>Forgot Password?</a>
+              <a href>Glömt Lösenord?</a>
             </div>
-            <button class="btn" @click.prevent="login">Login</button>
+            <button class="btn" @click.prevent="login">Logga in</button>
           </form>
         </div>
         <div class="social-media-login">
@@ -23,13 +23,13 @@
             <div class="icon">
               <img src="/img/facebook.svg" alt />
             </div>
-            <span>Login with Facebook</span>
+            <span>Logga in med Facebook</span>
           </div>
           <div class="social-button google">
             <div class="icon">
               <img src="/img/google.svg" alt />
             </div>
-            <span>Login with Google</span>
+            <span>Logga in med Google</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
-  <section class="staff" id="staff" :style="{background: site.frontend_opts.theme.sections[3].background}">
-    <h2 :style="{color: site.frontend_opts.theme.sections[3].text.heading}">Our Awesome Staff</h2>
+  <section class="staff" id="staff" :style="{background: section.background}">
+    <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
     <div class="grid">
       <div class="container">
         <div class="members">

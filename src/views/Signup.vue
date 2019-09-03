@@ -1,21 +1,21 @@
 <template>
   <main class="signup">
     <div class="container">
-      <h1>Sign Up</h1>
+      <h1>Skapa konto</h1>
       <p>
-        Already have an account?
-        <router-link to="/login" tag="a">Login</router-link>
+        Har du redan ett konto?
+        <router-link to="/login" tag="a">Logga in</router-link>
       </p>
       <div class="signup-area">
         <div class="email-signup">
           <form>
-            <input type="email" placeholder="Enter Your Email" v-model="email" />
-            <input type="password" placeholder="Choose a Password" v-model="password" />
-            <input type="password" placeholder="Confirm Your Password" />
+            <input type="email" placeholder="Din E-post" v-model="email" />
+            <input type="password" placeholder="Välj lösenord" v-model="password" />
+            <input type="password" placeholder="Repetera lösenord" />
             <div class="controls">
-              <Checkbox :label="'I accept terms of use.'" v-model="acceptTermsOfUse" />
+              <Checkbox :label="'Jag accepterar villkoren.'" v-model="acceptTermsOfUse" />
             </div>
-            <button class="btn" @click.prevent="signup">Sign Up</button>
+            <button class="btn" @click.prevent="signup">Skapa konto</button>
           </form>
         </div>
         <div class="social-media-signup">
@@ -23,13 +23,13 @@
             <div class="icon">
               <img src="img/facebook.svg" alt />
             </div>
-            <span>signup with Facebook</span>
+            <span>Skapa med Facebook</span>
           </div>
           <div class="social-button google">
             <div class="icon">
               <img src="img/google.svg" alt />
             </div>
-            <span>signup with Google</span>
+            <span>Skapa med Google</span>
           </div>
         </div>
       </div>

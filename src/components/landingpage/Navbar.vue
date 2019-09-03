@@ -16,37 +16,28 @@
         </div>
         <ul class="top-menu">
           <li>
-            <a href="#home" v-smooth-scroll>Home</a>
+            <a href="#home" v-smooth-scroll>Hem</a>
           </li>
           <li>
-            <a href="#about" v-smooth-scroll>About</a>
+            <a href="#gallery" v-smooth-scroll>Galleri</a>
           </li>
           <li>
-            <a href="#gallery" v-smooth-scroll>Gallery</a>
-          </li>
-          <li>
-            <a href="#staff" v-smooth-scroll>Staff</a>
-          </li>
-          <li>
-            <a href="#products" v-smooth-scroll>Services</a>
-          </li>
-          <li>
-            <a href="#contact" v-smooth-scroll>Contact</a>
+            <a href="#contact" v-smooth-scroll>Kontakt</a>
           </li>
         </ul>
         <ul class="account">
-          <router-link to="/login" tag="li" v-if="!isAuth">Login</router-link>
-          <router-link to="/theme" tag="li" v-if="isAuth">Edit Theme/Sections</router-link>
-          <router-link to="/admin" tag="li" v-if="isAuth">Edit Website</router-link>
+          <router-link to="/login" tag="li" v-if="!isAuth">Logga in</router-link>
+          <router-link to="/theme" tag="li" v-if="isAuth">Ändra Tema/Sektioner</router-link>
+          <router-link to="/admin" tag="li" v-if="isAuth">Ändra Innehåll</router-link>
           <li
             v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')"
             @click="$router.push(`/site/${site.site_id}`)"
-          >View website</li>
+          >Visa Webbsida</li>
           <li
             v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')"
             @click="$router.push('/wizard')"
-          >Create Site</li>
-          <li v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')" @click="logout">Logout</li>
+          >Skapa konto</li>
+          <li v-if="isAuth && ($route.path === '/admin' || $route.path === '/theme')" @click="logout">Logga ut</li>
         </ul>
         <div class="collapse" id="collapse" @click="sidebar = true">
           <span
@@ -60,53 +51,44 @@
     <div class="sidebar" :class="sidebar ? 'open': ''" v-click-outside="closeSidebar">
       <ul class="top-menu" v-if="site">
         <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#home" v-smooth-scroll>Home</a>
+          <a href="#home" v-smooth-scroll>Hem</a>
         </li>
         <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#about" v-smooth-scroll>About</a>
+          <a href="#gallery" v-smooth-scroll>Galleri</a>
         </li>
         <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#gallery" v-smooth-scroll>Gallery</a>
+          <a href="#contact" v-smooth-scroll>Kontakt</a>
         </li>
-        <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#staff" v-smooth-scroll>Staff</a>
-        </li>
-        <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#products" v-smooth-scroll>Services</a>
-        </li>
-        <li :class="`theme${site.frontend_opts.theme}`">
-          <a href="#contact" v-smooth-scroll>Contact</a>
-        </li>
-        <router-link to="/login" tag="li" v-if="!isAuth">Login</router-link>
+        <router-link to="/login" tag="li" v-if="!isAuth">Logga in</router-link>
         
         <li
           v-if="isAuth && ($route.path !== '/site')"
           :class="`theme${site.frontend_opts.theme}`"
           @click="$router.push(`/site/${site.site_id}`)"
-        >View website</li>
+        >Visa Webbsida</li>
         <li
           v-if="isAuth && ($route.path.split('/')[1] !== 'site')"
           :class="`theme${site.frontend_opts.theme}`"
           @click="$router.push('/wizard')"
-        >Create Site</li>
+        >Skapa sida</li>
         <li
           v-if="isAuth && ($route.path.split('/')[1] !== 'site')"
           :class="`theme${site.frontend_opts.theme}`"
           @click="logout"
-        >Logout</li>
+        >Logga ut</li>
       </ul>
     </div>
     <div class="overlay" v-if="sidebar"></div>
     <div class="dialog" :class="dialog.open ? 'open' : ''">
       <div class="card">
         <header>
-          <h2>Update Logo</h2>
+          <h2>Uppdatera Logo</h2>
         </header>
         <div class="content">
-          <label for="logo">Choose your Logo</label>
+          <label for="logo">Välj logo (fil)</label>
           <input type="file" id="logo" @change="onFileSelected" />
-          <button class="btn" @click="updateLogo">Save</button>
-          <button class="btn" @click="dialog.open = false">Close</button>
+          <button class="btn" @click="updateLogo">Spara</button>
+          <button class="btn" @click="dialog.open = false">Stäng</button>
         </div>
       </div>
     </div>
