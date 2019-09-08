@@ -1,5 +1,5 @@
 <template>
-  <section class="about" id="about" :style="{background: site.frontend_opts.theme.sections[0].background}">
+  <section class="about" id="about" :style="{background: section.background}">
     <div class="container">
       <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }} </h2>
       <div class="grid">
