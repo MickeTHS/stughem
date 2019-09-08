@@ -4,7 +4,7 @@
         <v-layout row wrap>
             <v-flex xs6>
                 <v-img
-                    :src="section.data[0].image_url == null ? process.env.VUE_APP_FILEUPLOAD + '/data/sunset.jpg' : section.data[0].image_url"
+                    :src="section.data[0].image_url == null ? process.env.VUE_APP_LOCAL_DOMAIN + '/img/sunset.jpg' : section.data[0].image_url"
                     lazy-src="https://picsum.photos/id/11/10/6"
                     class="grey lighten-2"
                     aspect-ratio="2"
