@@ -30,7 +30,7 @@ export default {
   props: ['site', 'allowEdit'],
   data(){
     return {
-      baseURL: 'http://localhost:80/'
+      
     }
   },
   methods: {

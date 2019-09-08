@@ -12,25 +12,33 @@
             <input type="email" placeholder="Skriv E-post" v-model="email" />
             <input type="password" placeholder="Skriv lösenord" v-model="password" />
             <div class="controls">
-              <Checkbox :label="'Remember me'" v-model="remember" />
+              <Checkbox :label="'Kom ihåg mig'" v-model="remember" />
               <a href>Glömt Lösenord?</a>
             </div>
             <button class="btn" @click.prevent="login">Logga in</button>
           </form>
         </div>
         <div class="social-media-login">
-          <div class="social-button facebook">
+          <facebook-login class="button" id="facebook_button" ref="facebook_button" style="display: none;"
+            appId="2464856270403847"
+            @login="getUserData"
+            @logout="onLogout"
+            @get-initial-status="getUserData"
+            @sdk-loaded="sdkLoaded"></facebook-login>
+          
+          <div class="social-button facebook" @click="clickFacebookBtn">
             <div class="icon">
               <img src="/img/facebook.svg" alt />
             </div>
             <span>Logga in med Facebook</span>
           </div>
+          <!--
           <div class="social-button google">
             <div class="icon">
               <img src="/img/google.svg" alt />
             </div>
             <span>Logga in med Google</span>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -39,28 +47,71 @@
 
 <script>
 import Checkbox from "@/components/Checkbox"
+import facebookLogin from 'facebook-login-vuejs';
+
 export default {
   data() {
     return {
       email: null,
       password: null,
       remember: true,
+      idImage: null, loginImage: null, mailImage: null, faceImage: null,
+      isConnected: false,
+      name: '',
+      email: '',
+      personalID: '',
+      FB: undefined
     };
   },
+
   components: {
-    Checkbox
+    Checkbox, facebookLogin
   },
   methods: {
+    clickFacebookBtn(e){
+      e.preventDefault();
+
+      console.log(this.$refs.facebook_button.$el.getElementsByTagName('button')[0]);
+
+      this.$refs.facebook_button.$el.getElementsByTagName('button')[0].click()
+    },
     login() {
       localStorage.clear();
       const authData = { email: this.email, password: this.password }
       this.$store.dispatch("login", authData)
+    },
+    getUserData() {
+      if (this.FB === undefined) {
+        return;
+      }
+
+      this.FB.api('/me', 'GET', { fields: 'id,name,email' },
+        userInformation => {
+          this.personalID = userInformation.id;
+          this.email = userInformation.email;
+          this.name = userInformation.name;
+        }
+      )
+    },
+    sdkLoaded(payload) {
+      console.log('got payload from facebook:');
+      console.log(payload);
+      this.isConnected = payload.isConnected
+      this.FB = payload.FB
+      if (this.isConnected) this.getUserData()
+    },
+    onLogin() {
+      this.isConnected = true
+      this.getUserData()
+    },
+    onLogout() {
+      this.isConnected = false;
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/_variables.scss";
 .login {
   background: $primaryColor;
@@ -120,9 +171,19 @@ export default {
 
       input[type="email"],
       input[type="password"] {
-        width: 360px;
+        border: 1px solid gray;
+        border-radius: 0px;
+        background-color: white;
         display: block;
-        margin: 15px 0;
+        margin: 8px 0 16px;
+        width: 100%;
+        color: black;
+        &::placeholder {
+          color: gray;
+        }
+        &.invalid {
+          background-color: rgba(244, 67, 54, 0.3);
+        }
         &:-webkit-autofill,
         &:-webkit-autofill:hover,
         &:-webkit-autofill:focus,

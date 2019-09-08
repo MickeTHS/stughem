@@ -13,7 +13,7 @@
                 <v-card style="margin-right: 10px;">
                     <v-btn v-if="allowEdit" color="primary" @click="currentColumnImageEdit = index">Ladda upp bild</v-btn>
                     <v-img
-                    :src="data.image_url == null ? 'http://localhost/data/sunset.jpg' : data.image_url"
+                    :src="data.image_url == null ? process.env.VUE_APP_CONTENT_URL + '/data/sunset.jpg' : data.image_url"
                     height="200px"
                     ></v-img>
 

@@ -150,7 +150,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost:80/fileupload', payload, config)
+        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, payload, config)
         console.log(res)
         const logo = res.data.files[0]
         const frontendOpts = state.site.frontend_opts
@@ -187,7 +187,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Images uploaded successfully'
         const snackbar = {
           open: true,
@@ -208,7 +208,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.put('http://localhost:80/api/site/updateSectionData', payload, config)
+        const res = await Axios.put(process.env.VUE_APP_API_HTTP + '/site/updateSectionData', payload, config)
         const message = 'Section updated successfully'
         const snackbar = {
           open: true,
@@ -230,7 +230,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const res = await Axios.post( process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -252,7 +252,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -274,7 +274,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post('http://localhost:80/fileupload', fd, config)
+        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -346,7 +346,7 @@ export default new Vuex.Store({
         }
         // payload.fd.append('gallery_id', galleryId)
         payload.fd.append('staff_id', staffId)
-        const uploadRes = await Axios.post('http://localhost:80/fileupload', payload.fd, filesUploadConfig)
+        const uploadRes = await Axios.post(process.env.VUE_APP_FILEUPLOAD, payload.fd, filesUploadConfig)
         console.log(uploadRes)
       } catch (e) {
         console.log('ERROR!!')

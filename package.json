@@ -1,6 +1,6 @@
 {
-  "name": "stughem2",
-  "version": "0.1.0",
+  "name": "stughem",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,7 +10,9 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "facebook-login-vuejs": "^2.1.3",
     "vue": "^2.6.10",
+    "vue-facebook-login-component": "^1.3.7",
     "vue-router": "^3.1.3",
     "vue2-smooth-scroll": "^1.1.0",
     "vuetify": "^2.0.0",

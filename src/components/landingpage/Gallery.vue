@@ -29,7 +29,7 @@ export default {
   props: ['site', 'allowEdit', 'section'],
   data(){
     return {
-      baseURL: 'http://localhost:80/'
+      
     }
   }
 };

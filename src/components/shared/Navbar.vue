@@ -5,12 +5,12 @@
         <router-link to="/" tag="a">StugHem</router-link>
       </div>
       <ul class="top-menu">
-        <router-link to="/" tag="li">Home</router-link>
-        <router-link to="/about" tag="li">About</router-link>
-        <router-link to="/services" tag="li">Services</router-link>
-        <router-link to="/contact" tag="li">Contact</router-link>
+        <router-link to="/" tag="li">Hem</router-link>
+        <router-link to="/about" tag="li">Om oss</router-link>
+        <router-link to="/services" tag="li">Tjänster</router-link>
+        <router-link to="/contact" tag="li">Kontakt</router-link>
       </ul>
-      <router-link to="/login" tag="a" class="btn">Sign In</router-link>
+      <router-link to="/login" tag="a" class="btn">Logga in</router-link>
       <div class="collapse">
         <span></span>
         <span></span>

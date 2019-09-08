@@ -1,33 +1,59 @@
 
 <template>
-  <div class="hero">
-    <div class="container">
-      <div class="box">
-        <h1>Skapa en snygg och proffsig hemsida åt din stuga/hus för uthyrning enkelt och snabbt!</h1>
-        <router-link to="/signup" tag="a" class="btn">Skapa sida</router-link>
+  <div>
+    <FrontpageGallery />
+    <div class="hero">
+      <div class="container">
+        <div class="box">
+          <h1>Behöver du en hemsida åt din stuga?</h1>
+          <h2>På StugHem kan du skapa en enkel och snygg sida på bara några minuter</h2>
+          <h2>Du får även tillgång till bokningsfunktioner, editeringsverktyg, utskick och mycket mer</h2>
+          <router-link to="/signup" tag="a" class="btn">Skapa sida</router-link>
+          <h2>Är du nyfiken på hur en sida ser ut?</h2>
+          <router-link to="/example" tag="a" class="btn">Se Exempel</router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
-<style lang="scss">
+<script>
+import FrontpageGallery from './FrontpageGallery';
+
+export default {
+  components: { FrontpageGallery }
+  
+}
+</script>
+<style lang="scss" scoped>
 .hero {
-  background: url(/img/hero.jpg);
   background-size: cover;
 
   .container {
-    height: 100vh;
-    display: flex;
+    
+    position: absolute;
+    top: 100px;
     align-content: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
     padding-top: 54px !important;
+    
 
     .box {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.7);
       padding: 60px 40px;
       max-width: 720px;
       margin: 0 auto;
+
+      h1 {
+        font-size: 32px;
+      }
+
+      h2 {
+        color: white;
+        font-size: 20px;
+        margin-top: 20px;
+      }
 
       .btn {
         font-size: 14px;
