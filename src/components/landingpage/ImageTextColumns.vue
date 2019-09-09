@@ -31,7 +31,7 @@
                       <v-card-text>
                     <span class="grey--text subtitle-1">
                       <textarea v-if="allowEdit" :style="{color: section.text.body_color}" v-model="data.body_text"></textarea>
-                      <p :style="{color: section.text.body_color}" v-if="!allowEdit">{{ data.body_text }}</p>
+                      <p :style="{color: section.text.body_color}" v-if="!allowEdit"><pre>{{ data.body_text }}</pre></p>
                     </span>
                     </v-card-text>
                     </v-expand-transition>
