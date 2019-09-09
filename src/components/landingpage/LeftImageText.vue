@@ -14,9 +14,12 @@
             <v-flex xs6>
                 <v-card height="100%">
                     <v-card-title class="section-header" :style="{color: section.text.heading_color}">{{ section.data[0].heading_text }}<i v-if="allowEdit" class="material-icons edit add-header" :section="section" @click="editSectionHeader" :style="{background: site.frontend_opts.theme.primary}">edit</i></v-card-title>
-                    <v-card-text class="section-body" :style="{color: section.text.body_color}"><pre>{{ section.data[0].body_text }}<i v-if="allowEdit" class="material-icons edit add-text" :section="section" @click="editSectionBody" :style="{background: site.frontend_opts.theme.primary}">edit</i></pre></v-card-text>
+                    <v-card-text class="section-body" :style="{color: section.text.body_color}">
+                      <p style="margin-left: 10px;" v-bind:key="index" v-for="(text, index) in body_text">
+                        {{ text }}
+                      </p>
+                      <i v-if="allowEdit" class="material-icons edit add-text" :section="section" @click="editSectionBody" :style="{background: site.frontend_opts.theme.primary}">edit</i></v-card-text>
                 </v-card>
-                
             </v-flex>
         </v-layout>
     </v-container>
@@ -29,6 +32,9 @@ export default {
   computed: {
     static_urls() {
       return this.$store.state.static_urls;
+    },
+    body_text() {
+      return this.section.data[0].body_text.split("\n");
     }
   },
   methods: {
