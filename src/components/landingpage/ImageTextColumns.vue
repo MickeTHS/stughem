@@ -13,7 +13,7 @@
                 <v-card style="margin-right: 10px;">
                     <v-btn v-if="allowEdit" color="primary" @click="currentColumnImageEdit = index">Ladda upp bild</v-btn>
                     <v-img
-                    :src="data.image_url == null ? process.env.VUE_APP_LOCAL_DOMAIN + '/img/sunset.jpg' : data.image_url"
+                    :src="data.image_url == null ? static_urls.local + '/img/sunset.jpg' : data.image_url"
                     height="200px"
                     ></v-img>
 
@@ -45,6 +45,11 @@
 <script>
 export default {
   props: ['allowEdit', 'site', 'section'],
+  computed: {
+    static_urls() {
+      return this.$store.state.static_urls;
+    }
+  },
   data() {
     return {
       currentColumnImageEdit: -1

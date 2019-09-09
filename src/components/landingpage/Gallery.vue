@@ -1,7 +1,7 @@
 <template>
   <section class="gallery" id="gallery" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
+      <!--<h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
       <p :style="{color: section.text.body}">
         <i
           class="material-icons edit"
@@ -10,7 +10,7 @@
           @click="$emit('updateGalleryDescription')"
         >edit</i>
         {{ site.frontend_opts.gallery_description || '--'}}
-      </p>
+      </p>-->
       <div class="images">
         <i class="material-icons add" v-if="allowEdit" @click="$emit('addToGallery')" :style="{background: site.frontend_opts.theme.primary}">add</i>
         <div

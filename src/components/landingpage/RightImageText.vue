@@ -11,7 +11,7 @@
             </v-flex>
             <v-flex xs6>
                 <v-img
-                    :src="section.data[0].image_url == null ? process.env.VUE_APP_LOCAL_DOMAIN + '/img/sunset.jpg' : section.data[0].image_url"
+                    :src="section.data[0].image_url == null ? static_urls.local + '/img/sunset.jpg' : section.data[0].image_url"
                     lazy-src="https://picsum.photos/id/11/10/6"
                     class="grey lighten-2"
                     aspect-ratio="2"
@@ -27,6 +27,11 @@
 <script>
 export default {
   props: ['allowEdit', 'site', 'section'],
+  computed: {
+    static_urls() {
+      return this.$store.state.static_urls;
+    }
+  },
   methods: {
       addImageToSection() {
           this.$emit('addImageToSection', this.section);

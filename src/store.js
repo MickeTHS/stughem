@@ -9,6 +9,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    static_urls: {
+      local: process.env.VUE_APP_LOCAL_DOMAIN,
+      api: process.env.VUE_APP_API_HTTP,
+      content: process.env.VUE_APP_CONTENT_URL,
+      upload: process.env.VUE_APP_FILEUPLOAD
+    },
     token: null,
     userId: null,
     site: null,
@@ -39,6 +45,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async updateAddress({ commit, dispatch, state }, payload) {
+      const config = { headers: {'x-access-token': state.token} }
+
+      const res = await axios.put('/site/address', payload, config);
+    },
     async signup({commit}, authData) {
       try {
         const res = await axios.post('/user/create', authData)

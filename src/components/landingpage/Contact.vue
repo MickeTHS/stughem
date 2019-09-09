@@ -1,7 +1,7 @@
 <template>
   <section class="contact" id="contact" :style="{background: section.background}">
     <div class="container">
-      <h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>
+      <!--<h2 :style="{color: section.text.heading}">{{ section.data[0].heading_text }}</h2>-->
       <div class="grid">
         <div class="col col-6 map-wrapper">
           <div class="map">
@@ -9,24 +9,25 @@
           </div>
         </div>
         <div class="col col-6 contact-info">
-          <p :style="{color: section.text.body}">{{ section.data[0].body_text }}</p>
           <ul class="contact-info">
             <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">location_on</i>
-              {{ site.street }}
-              {{ site.street_no }},
-              {{ site.postal_code }}
-              {{ site.postal_area }}
-              {{ site.postal_code || site.postal_area ? ', ' : ''}}
-              {{ site.city }}
+              {{ site.contact.street }}
+              {{ site.contact.street_no }},
+              {{ site.contact.postal_code }}
+              {{ site.contact.postal_address }}
+              {{ site.contact.city }}
             </li>
             <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">phone_in_talk</i>
-              {{ site.phone_numbers }}
+              {{ site.contact.phone }}
             </li>
             <li :style="{color: section.text.body}">
               <i class="material-icons" :style="{color: site.frontend_opts.theme.primary}">message</i>
-              {{ site.emails }}
+              {{ site.contact.email }}
+            </li>
+            <li v-if="allowEdit" :style="{color: section.text.body}">
+              <button class="btn" @click="updateAddress" :style="{background: site.frontend_opts.theme.primary}">Ändra</button>
             </li>
           </ul>
         </div>
@@ -47,7 +48,12 @@
 
 <script>
 export default {
-  props: ['site', 'theme', 'section']
+  props: ['site', 'theme', 'section', 'allowEdit'],
+   methods: {
+      updateAddress() {
+        this.$emit('updateAddress');
+      }
+  }
 };
 </script>
 

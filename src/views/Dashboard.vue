@@ -84,7 +84,12 @@
         @deleteBlock="deleteProductsBlock"
       />
 
-      <Contact v-if="section.type === 'contact_form' && section.enabled" :section="section" :site="site" />
+      <Contact 
+        :allowEdit="true" 
+        v-if="section.type === 'contact_form' && section.enabled" 
+        :section="section" 
+        :site="site"
+        @updateAddress="editAddress" />
       
     </div>
     
@@ -159,6 +164,32 @@
             <div class="form-control products-form-control" v-for="(servce, index) in block.services" :key="index">
               <input type="text" placeholder="Enter Block Title" v-model="block.services[index].title" required />
               <input type="Number" placeholder="Enter Block Title" v-model="block.services[index].price" required />
+            </div>
+          </div>
+          <div v-if="dialog.target === 'editAddress'">
+            <div class="form-control">
+              <label for="phone">Gata</label>
+              <input type="text" id="street" v-model="site.contact.street" placeholder="Gata" />
+            </div>
+            <div class="form-control">
+              <label for="phone">Gatunummer</label>
+              <input type="text" id="street_no" v-model="site.contact.street_no" placeholder="Nr." />
+            </div>
+            <div class="form-control">
+              <label for="phone">Postkod</label>
+              <input type="text" id="postal_code" v-model="site.contact.postal_code" placeholder="Postkod" />
+            </div>
+            <div class="form-control">
+              <label for="phone">Postort</label>
+              <input type="text" id="postal_address" v-model="site.contact.postal_address" placeholder="Postort" />
+            </div>
+            <div class="form-control">
+              <label for="email">Epost</label>
+              <input type="text" id="email" v-model="site.contact.email" placeholder="Kontakt E-post" />
+            </div>
+            <div class="form-control">
+              <label for="phone">Tel</label>
+              <input type="text" id="phone" v-model="site.contact.phone" placeholder="Kontakt Telefon" />
             </div>
           </div>
           <div v-if="dialog.target === 'addStaff'">
@@ -260,7 +291,8 @@
               && dialog.target !== 'addSectionColumnImage'
               && dialog.target !== 'updateSocialLinks'
               && dialog.target !== 'section_heading'
-              && dialog.target !== 'section_body'"
+              && dialog.target !== 'section_body'
+              && dialog.target !== 'editAddress'"
             class="btn"
             @click="saveFrontendOpts"
           >Spara</button>
@@ -274,6 +306,7 @@
           <button v-if="dialog.target === 'section_heading'" class="btn" @click="saveSectionHeadingText">Spara</button>
           <button v-if="dialog.target === 'section_body'" class="btn" @click="saveSectionBodyText">Spara</button>
           <button v-if="dialog.target === 'addSectionColumnImage'" class="btn" @click="saveSectionColumnImage">Spara</button>
+          <button v-if="dialog.target === 'editAddress'" class="btn" @click="saveAddress">Spara</button>
           <button class="btn btn-error" @click="dialog.open = false">Stäng</button>
         </footer>
       </div>
@@ -331,7 +364,16 @@ export default {
         { name: "twitter",  url: "https://twitter.com/"},
         { name: "instagram", url: "https://instagram.com/"},
         { name: "linkedin", url: "https://linkedin.com/"}
-      ]
+      ],
+      contact: {
+        street: '',
+        street_no: '',
+        postal_code: '',
+        postal_address: '',
+        city: '',
+        phone: '',
+        emial: ''
+      }
     }
   },
   components: {
@@ -369,6 +411,11 @@ export default {
     addProducts() {
       this.dialog.title = "Add Products Block"
       this.dialog.target = "addProducts"
+      this.dialog.open = true
+    },
+    editAddress() {
+      this.dialog.title = "Update address"
+      this.dialog.target = "editAddress"
       this.dialog.open = true
     },
     editProducts(id) {
@@ -482,6 +529,20 @@ export default {
       console.log('section_id: ' + this.dialog.id);
       
       this.$store.dispatch('addSectionColumnImage', fd)
+    },
+    saveAddress() {
+      var payload = {
+        site_id: this.site.site_id,
+        contact: {
+          street: this.site.contact.street,
+          street_no: this.site.contact.street_no,
+          postal_address: this.site.contact.postal_address,
+          postal_code: this.site.contact.postal_code,
+          email: this.site.contact.email,
+          phone: this.site.contact.phone
+        }
+      };
+      this.$store.dispatch('updateAddress', payload);
     },
     saveSectionImage() {
       if(!this.selectedFiles) return
@@ -643,6 +704,7 @@ export default {
       this.gallery_description = this.site.frontend_opts.gallery_description 
       this.opening_hours = this.site.opening_hours 
       this.social = this.site.social
+      this.contact = this.site.contact
     }
   },
   mounted() {

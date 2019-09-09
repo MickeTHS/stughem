@@ -1,5 +1,10 @@
 <template>
   <div class="hero landingpage-hero" id="home">
+    <v-parallax :src="site.frontend_opts.backgroundImageURL" height="800">
+      <v-row
+      align="center"
+      justify="center"
+    >
     <div class="container">
       <div class="box">
         <h1>
@@ -16,7 +21,9 @@
         </p>
       </div>
     </div>
-    <div class="parallax" :style="{background: 'url(' + site.frontend_opts.backgroundImageURL + ')'}"></div>
+      </v-row>
+    </v-parallax>
+    
   </div>
 </template>
 
@@ -31,6 +38,7 @@ export default {
 .hero {
   &.landingpage-hero {
     background: transparent;
+    width: 100%;
   }
   .container {
     height: 100vh;
@@ -82,16 +90,6 @@ export default {
     }
   }
 
-  .parallax {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    /*background: url(/img/hero.jpg);*/
-    background-size: cover;
-    z-index: 0;
-  }
 }
 @media (max-width: 576px) {
   .hero {

@@ -11,7 +11,6 @@ import 'vuetify/dist/vuetify.min.css'
 Vue.use(vueSmoothScroll)
 Vue.config.productionTip = false
 
-
 Vue.directive('click-outside', {
   bind: function (el, binding, vnode) {
     el.clickOutsideEvent = function (event) {

@@ -4,7 +4,7 @@
       <div class="container">
         <div class="brand">
           <router-link to="/" tag="a" :style="{color: site.frontend_opts.theme.primary}">
-            <img v-if="site.frontend_opts.logo" :src="`${process.env.VUE_APP_CONTENT_URL}/${site.frontend_opts.logo}`"/>
+            <img v-if="site.frontend_opts.logo" :src="`${static_urls.content}/${site.frontend_opts.logo}`"/>
             <span v-else>{{ site ? site.name : 'Logo' }}</span>
           </router-link>
           <i
@@ -132,6 +132,9 @@ export default {
     }
   },
   computed: {
+    static_urls() {
+      return this.$store.state.static_urls;
+    },
     isAuth() {
       return this.$store.getters.isAuth;
     },
