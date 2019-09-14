@@ -119,6 +119,10 @@ export default new Vuex.Store({
       }
       const user = await axios.get('/user', data)
     },
+    async deleteSection({commit, dispatch, state}, section_id) {
+      const config = { headers: {'x-access-token': state.token} }
+      const res = await axios.delete('/site/deletesection?section_id='+section_id, config)
+    },
     async moveSectionUp({commit, dispatch, state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
       const res = await axios.put('/site/movesection', { section_id: payload, dir: 'up' }, config)
@@ -364,6 +368,7 @@ export default new Vuex.Store({
         console.log(e)
       }
     },
+    
     async deleteStaff({commit, state}, userId){
       const config = { headers: {'x-access-token': state.token} }
       const res = await axios.delete(`/user?user_id=${userId}`, config)

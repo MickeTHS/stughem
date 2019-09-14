@@ -67,7 +67,7 @@
       <v-card-actions>
         <v-btn text @click="moveSectionUp">Flytta upp</v-btn>
         <v-btn text @click="moveSectionDown">Flytta ner</v-btn>
-        <v-btn text color="error">Radera</v-btn>
+        <v-btn text @click="deleteSection" color="error">Radera</v-btn>
       </v-card-actions>
     </v-card>
     <!-- end card -->
@@ -85,6 +85,9 @@ export default {
             console.log('move: ' + this.section.id);
             this.$emit('moveSectionDown', this.section.id);
         },
+        deleteSection() {
+            this.$emit('deleteSection', this.section.id);
+        }
     },
     data() {
         return { heading_text: '' }

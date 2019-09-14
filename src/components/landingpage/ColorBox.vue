@@ -30,9 +30,9 @@
           
         </div>
     </v-layout>
-    <v-layout row wrap v-bind:key="section.id" v-for="section in sections">
+    <v-layout row wrap v-bind:key="section.id" v-for="section in site.frontend_opts.theme.sections">
 
-      <EditSectionBox @moveSectionUp="moveSectionUp" @moveSectionDown="moveSectionDown" :section="section" :site="site" />
+      <EditSectionBox @deleteSection="deleteSection" @moveSectionUp="moveSectionUp" @moveSectionDown="moveSectionDown" :section="section" :site="site" />
 
     </v-layout>
  
@@ -153,6 +153,10 @@ export default {
       await this.$store.dispatch('moveSectionDown', section_id);
       await this.$store.dispatch("getSite");
     },
+    async deleteSection(section_id) {
+      await this.$store.dispatch('deleteSection', section_id);
+      await this.$store.dispatch("getSite");
+    },
     closeAddSectionDialog() {
       this.addSectionDialog = false;
     },
@@ -190,10 +194,6 @@ export default {
       await this.$store.dispatch("getSite");
       this.addSectionDialog = false;
     }
-  },
-  mounted() {
-    this.sections = this.site.frontend_opts.theme.sections;
-    console.log(this.sections);
   }
 };
 </script>
