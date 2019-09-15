@@ -45,10 +45,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async updateAddress({ commit, dispatch, state }, payload) {
+    async updateAddress({state }, payload) {
       const config = { headers: {'x-access-token': state.token} }
 
-      const res = await axios.put('/site/address', payload, config);
+      await axios.put('/site/address', payload, config);
     },
     async signup({commit}, authData) {
       try {
@@ -62,7 +62,9 @@ export default new Vuex.Store({
         localStorage.setItem('userId', userId)
         router.push('/wizard')
       } catch (e) {
-        const message = e.response.data.message || e.response.data.reason || 'ERROR!'
+        // const message = e.response.data.message || e.response.data.reason || 'ERROR!'
+        console.log(e)
+        const message = 'ERROR!'
         const snackbar = {
           open: true,
           message: message,
@@ -112,32 +114,33 @@ export default new Vuex.Store({
 
       router.replace('/login')
     },
-    async getUser({commit, state}) {
+    async getUser({state}) {
       const data = {
         user_id: state.userId,
         headers: {'x-access-token': state.token}
       }
       const user = await axios.get('/user', data)
+      console.log(user)
     },
-    async deleteSection({commit, dispatch, state}, section_id) {
+    async deleteSection({state}, section_id) {
       const config = { headers: {'x-access-token': state.token} }
-      const res = await axios.delete('/site/deletesection?section_id='+section_id, config)
+      await axios.delete('/site/deletesection?section_id='+section_id, config)
     },
-    async moveSectionUp({commit, dispatch, state}, payload) {
+    async moveSectionUp({state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
-      const res = await axios.put('/site/movesection', { section_id: payload, dir: 'up' }, config)
+      await axios.put('/site/movesection', { section_id: payload, dir: 'up' }, config)
     },
-    async moveSectionDown({commit, dispatch, state}, payload) {
+    async moveSectionDown({state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
-      const res = await axios.put('/site/movesection', { section_id: payload, dir: 'down' }, config)
+      await axios.put('/site/movesection', { section_id: payload, dir: 'down' }, config)
     },
-    async updateSectionHeadingText({commit, dispatch, state}, payload) {
+    async updateSectionHeadingText({state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
-      const res = await axios.put('/site/updateSectionHeading', payload, config)
+      await axios.put('/site/updateSectionHeading', payload, config)
     }, 
-    async updateSectionBodyText({commit, dispatch, state}, payload) {
+    async updateSectionBodyText({state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
-      const res = await axios.put('/site/updateSectionBody', payload, config)
+      await axios.put('/site/updateSectionBody', payload, config)
     },
     async createSite({commit, dispatch, state}, payload) {
       const config = { headers: {'x-access-token': state.token} }
@@ -157,7 +160,7 @@ export default new Vuex.Store({
       commit('updateSite', updatedSite)
       dispatch('getSite', siteId)
     },
-    async addLogo({commit, dispatch, state}, payload) {
+    async addLogo({dispatch, state}, payload) {
       const config = {
         headers: {
           'x-access-token': state.token,
@@ -179,7 +182,7 @@ export default new Vuex.Store({
         console.log(e.reason)
       }
     },
-    async updateLogo({commit, dispatch, state}, payload) {
+    async updateLogo({state}, payload) {
       const config = {
         headers: {
           'x-access-token': state.token,
@@ -202,7 +205,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
+        await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Images uploaded successfully'
         const snackbar = {
           open: true,
@@ -223,7 +226,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.put(process.env.VUE_APP_API_HTTP + '/site/updateSectionData', payload, config)
+        Axios.put(process.env.VUE_APP_API_HTTP + '/site/updateSectionData', payload, config)
         const message = 'Section updated successfully'
         const snackbar = {
           open: true,
@@ -245,7 +248,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post( process.env.VUE_APP_FILEUPLOAD, fd, config)
+        await Axios.post( process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -267,7 +270,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
+        await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -289,7 +292,7 @@ export default new Vuex.Store({
         }
       }
       try {
-        const res = await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
+        await Axios.post(process.env.VUE_APP_FILEUPLOAD, fd, config)
         const message = 'Image uploaded successfully'
         const snackbar = {
           open: true,
@@ -303,25 +306,25 @@ export default new Vuex.Store({
         console.log(e.reason)
       }
     },
-    async addSection({commit, state}, type) {
+    async addSection({state}, type) {
       const config = { headers: {'x-access-token': state.token} }
       const obj = { site_id: state.site.site_id, type: type };
 
       console.log('site sending add section: ', obj)
       return await axios.post('/site/addsection', obj, config)
     },
-    async updateSite({commit, state}, site) {
+    async updateSite({state}, site) {
       const config = { headers: {'x-access-token': state.token} }
       site.site_id = state.site.site_id
       console.log('site to update: ', site)
       return await axios.put('/site', site, config)
     },
-    async getSitePublic({state, commit}, id) {
+    async getSitePublic({commit}, id) {
       const res = await axios.get(`/site/publicextended?site_id=${id}`)
       const site = res.data.site
       commit('updatePublicSite', site)
     },
-    async getSite({commit, dispatch, state}, id) {
+    async getSite({commit, state}, id) {
       if (!id) id = state.site.site_id
       const res = await axios.get(`/site/extended?site_id=${id}`)
       const site = res.data.site
@@ -333,7 +336,7 @@ export default new Vuex.Store({
       commit('updateSite', site)
       //router.push('/admin')
     },
-    async autoLoadSite({commit, state}) {
+    async autoLoadSite({commit}) {
       try {
         const site = JSON.parse(localStorage.getItem('site'))
         if (!site) return
@@ -342,7 +345,7 @@ export default new Vuex.Store({
         localStorage.clear()
       }
     },
-    async addStaff({commit, state}, payload) {
+    async addStaff({state}, payload) {
       const config = {
         headers: {
           'x-access-token': state.token
@@ -351,7 +354,6 @@ export default new Vuex.Store({
       try {
         const res = await axios.post('/site/staff', payload.staff, config)
         console.log(res)
-        // const galleryId = res.data.user.gallery_id
         const staffId = res.data.user.user_id
         const filesUploadConfig = {
           headers: {
@@ -359,7 +361,6 @@ export default new Vuex.Store({
             'Content-Type': 'multipart/form-data'
           }
         }
-        // payload.fd.append('gallery_id', galleryId)
         payload.fd.append('staff_id', staffId)
         const uploadRes = await Axios.post(process.env.VUE_APP_FILEUPLOAD, payload.fd, filesUploadConfig)
         console.log(uploadRes)
@@ -369,7 +370,7 @@ export default new Vuex.Store({
       }
     },
     
-    async deleteStaff({commit, state}, userId){
+    async deleteStaff({state}, userId){
       const config = { headers: {'x-access-token': state.token} }
       const res = await axios.delete(`/user?user_id=${userId}`, config)
       console.log('Delete Res: ', res)
