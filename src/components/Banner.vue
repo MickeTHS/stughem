@@ -10,7 +10,10 @@
           <h2>Du får även tillgång till bokningsfunktioner, editeringsverktyg, utskick och mycket mer</h2>
           <router-link to="/signup" tag="a" class="btn">Skapa sida</router-link>
           <h2>Är du nyfiken på hur en sida ser ut?</h2>
-          <router-link to="/example" tag="a" class="btn">Se Exempel</router-link>
+          <a class="btn" href="http://semesteridre.se" target="_blank">
+            Se Exempel
+          </a>
+          
         </div>
       </div>
     </div>
